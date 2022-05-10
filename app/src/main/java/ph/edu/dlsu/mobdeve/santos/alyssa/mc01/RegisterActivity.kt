@@ -16,7 +16,7 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener{
 
     override fun onClick(view: View?) {
         when(view!!.id){
-            //To edit
+            //To edit later
         }
     }
 }
