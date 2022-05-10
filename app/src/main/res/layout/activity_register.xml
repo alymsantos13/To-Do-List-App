@@ -34,11 +34,12 @@
         />
 
     <androidx.appcompat.widget.AppCompatButton
-        android:id="@+id/btn_register"
+        android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginRight="70dp"
         android:layout_marginLeft="70dp"
         android:text="@string/register"
-        android:background="@color/pink"/>
+        android:background="@color/pink"
+        android:textAllCaps="false"/>
 </LinearLayout>

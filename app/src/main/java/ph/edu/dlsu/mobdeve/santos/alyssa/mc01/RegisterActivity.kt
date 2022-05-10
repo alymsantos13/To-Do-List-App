@@ -1,6 +1,7 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
 import android.app.Activity
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
@@ -12,11 +13,17 @@ class RegisterActivity : AppCompatActivity(), View.OnClickListener{
         super.onCreate(savedInstanceState)
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        binding.btnConfirm.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
         when(view!!.id){
-            //To edit this
+            R.id.btn_confirm -> {
+                var goToLoginActivity = Intent(this, LoginActivity::class.java)
+                startActivity(goToLoginActivity)
+                finish()
+            }
         }
     }
 }
