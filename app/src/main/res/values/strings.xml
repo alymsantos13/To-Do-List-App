@@ -3,4 +3,6 @@
     <string name="login">Login</string>
     <string name="hyperlink">Not yet registered? Click Here</string>
     <string name="hint">Enter Password Here</string>
+    <string name="confirm">Confirm Password</string>
+    <string name="register">Register</string>
 </resources>
