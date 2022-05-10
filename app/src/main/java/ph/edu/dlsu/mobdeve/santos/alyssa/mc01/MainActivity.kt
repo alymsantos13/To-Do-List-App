@@ -1,7 +1,9 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -11,6 +13,8 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        Handler().postDelayed({val goToLogin = Intent(this, LoginActivity::class.java)
+                                startActivity(goToLogin)
+                              }, 3000)
     }
 }
