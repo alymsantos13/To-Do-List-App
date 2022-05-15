@@ -100,6 +100,7 @@
             >
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_todo"
                 android:layout_width="82dp"
                 android:layout_height="75dp"
                 android:src="@drawable/ic_todo"
@@ -107,6 +108,7 @@
                 android:background="?android:attr/selectableItemBackground"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_timer"
                 android:layout_width="82dp"
                 android:layout_height="75dp"
                 android:src="@drawable/ic_timer"
@@ -114,6 +116,7 @@
                 android:background="?android:attr/selectableItemBackground"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
+                android:id="@+id/btn_logout"
                 android:layout_width="82dp"
                 android:layout_height="75dp"
                 android:src="@drawable/ic_logout"
