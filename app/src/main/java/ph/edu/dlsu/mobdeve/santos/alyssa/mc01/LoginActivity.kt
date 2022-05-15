@@ -14,6 +14,7 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
 
         binding.btnRegister.setOnClickListener(this)
+        binding.btnLogin.setOnClickListener(this)
     }
 
     override fun onClick(view: View?) {
@@ -22,6 +23,11 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_register -> {
                 var goToRegisterActivity = Intent(this, RegisterActivity::class.java)
                 startActivity(goToRegisterActivity)
+                finish()
+            }
+            R.id.btn_login -> {
+                var goToListActivity = Intent(this, ListActivity::class.java)
+                startActivity(goToListActivity)
                 finish()
             }
         }
