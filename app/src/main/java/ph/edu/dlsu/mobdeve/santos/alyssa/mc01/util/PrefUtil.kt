@@ -1,7 +1,7 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util
 
 import android.content.Context
-import android.preference.PreferenceManager
+import androidx.preference.PreferenceManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.TimerActivity
 
 class PrefUtil {

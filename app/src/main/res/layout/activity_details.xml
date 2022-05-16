@@ -82,7 +82,9 @@
         android:id="@+id/et_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Type notes here:"
+        android:padding="100dp"
+        android:layout_gravity="center"
+        android:hint="Write notes here"
         />
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -101,23 +103,25 @@
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_todo"
-                android:layout_width="80dp"
-                android:layout_height="70dp"
+                android:layout_width="62dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
                 android:background="@drawable/todo"
                 android:layout_gravity="left"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_timer"
-                android:layout_width="80dp"
-                android:layout_height="70dp"
+                android:layout_width="62dp"
+                android:layout_height="55dp"
                 android:layout_gravity="center"
                 android:background="@drawable/timer"/>
 
             <androidx.appcompat.widget.AppCompatImageButton
                 android:id="@+id/btn_logout"
-                android:layout_width="80dp"
-                android:layout_height="70dp"
+                android:layout_width="62dp"
+                android:layout_height="55dp"
+                android:layout_marginTop="10dp"
                 android:layout_gravity="right"
                 android:background="@drawable/logout"/>
 
