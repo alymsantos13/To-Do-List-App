@@ -9,7 +9,7 @@ class PrefUtil {
 
         fun getTimerLength(context : Context) : Int {
             //Placeholder
-            return 1
+            return 2
         }
 
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "ph.edu.dlsu.mobdeve.santos.alyssa.timer.previous_timer_length"
@@ -52,7 +52,5 @@ class PrefUtil {
             editor.putLong(SECONDS_REMAINING_ID, seconds)
             editor.apply()
         }
-
-
     }
 }
