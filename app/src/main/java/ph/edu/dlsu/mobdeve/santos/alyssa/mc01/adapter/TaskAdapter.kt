@@ -13,7 +13,6 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
 class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
-    private var delete =null
     private var taskArrayList = ArrayList<Task>()
     private lateinit var context: Context
 
