@@ -28,7 +28,6 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)
         binding.rvList.setAdapter(taskAdapter)
 
-
         //Navigation bar
         binding.btnTodo.setOnClickListener(this)
         binding.btnTimer.setOnClickListener(this)
