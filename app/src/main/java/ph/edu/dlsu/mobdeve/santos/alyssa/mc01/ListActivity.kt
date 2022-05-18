@@ -13,7 +13,6 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityListBinding
-    private lateinit var deleteLater : String
     private lateinit var taskAdapter : TaskAdapter
     private lateinit var taskArrayList : ArrayList<Task>
 
