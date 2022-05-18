@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ListActivity">
+    tools:context=".ListActivity"
+    >
 
     <androidx.appcompat.widget.SearchView
         android:id="@+id/sv_searchbar"
@@ -21,14 +22,14 @@
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
         android:text="@string/todo"
-        android:textSize="24sp"
+        android:background="@color/pink"
+        android:textSize="30sp"
         android:layout_marginStart="15dp"
         android:layout_marginEnd="15dp"
-        android:layout_marginBottom="600dp"
+        android:padding="5dp"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/sv_searchbar"
 
         />
 
@@ -37,7 +38,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@+id/tv_title"
-        tools:layout_editor_absoluteX="15dp" />
+        tools:layout_editor_absoluteX="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"/>
+
+    <EditText
+        android:id="@+id/et_task"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="200dp"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <Button
+        android:id="@+id/btn_add"
+        android:layout_width="81dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginBottom="4dp"
+        android:text="Add task"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintLeft_toRightOf="@+id/et_task" />
+
+    <Button
+        android:id="@+id/btn_delete"
+        android:layout_width="93dp"
+        android:layout_height="52dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginBottom="4dp"
+        android:text="Delete Task"
+        app:layout_constraintBottom_toTopOf="@id/bottomNavigationView"
+        app:layout_constraintLeft_toRightOf="@+id/btn_add" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
