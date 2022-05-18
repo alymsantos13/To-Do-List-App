@@ -24,6 +24,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         setContentView(binding.root)
         init()
 
+        //PLS DELETE LATER
         binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)
         binding.rvList.setAdapter(taskAdapter)
