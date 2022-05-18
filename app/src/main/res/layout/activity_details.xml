@@ -18,26 +18,26 @@
         android:padding="10dp"
         android:text="Details"
         android:textColor="@color/black"
-        android:textSize="40sp" />
+        android:textSize="24sp" />
 
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textSize="30sp"
-        android:text="Title: Task 1"
+        android:textStyle="italic"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:padding="10dp"
         android:background="@drawable/tv_border"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:text="Description: Do this later"
         android:textColor="@color/black"
         android:padding="10dp"
@@ -49,7 +49,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:text="Due date: 04/19/22"
         android:textColor="@color/black"
         android:padding="10dp"
@@ -61,7 +61,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="left"
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:text="Repeat Everyday"
         android:padding="10dp"
         android:background="@drawable/tv_border"/>
@@ -72,20 +72,18 @@
         android:layout_height="wrap_content"
         android:gravity="left"
         android:text="Notes: "
-        android:textSize="30sp"
+        android:textSize="20sp"
         android:textColor="@color/black"
         android:padding="10dp"
         android:drawableRight="@drawable/pencil"
         />
 
-    <EditText
+    <TextView
         android:id="@+id/et_notes"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:padding="100dp"
+        android:layout_height="342dp"
         android:layout_gravity="center"
-        android:hint="Write notes here"
-        />
+        android:hint="Write notes here" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

@@ -16,6 +16,9 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTodo.setOnClickListener(this)
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
+
+        val name = intent.getStringExtra("name")
+        binding.tvTitle.text = "$name"
     }
 
     override fun onClick(view: View?) {

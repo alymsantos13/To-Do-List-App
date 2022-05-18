@@ -46,7 +46,15 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         var dao : TasksDAO = TasksDAOArrayImpl()
 
         var task = Task()
-        task.name = "Test Task"
+        task.name = "Water the plants"
+        dao.addTask(task)
+
+        task = Task()
+        task.name = "Do the laundry"
+        dao.addTask(task)
+
+        task = Task()
+        task.name = "Wash the dishes"
         dao.addTask(task)
 
         taskArrayList = dao.getTask()

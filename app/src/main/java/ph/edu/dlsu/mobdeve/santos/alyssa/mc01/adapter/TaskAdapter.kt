@@ -1,10 +1,13 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter
 
 import android.content.Context
+import android.content.Intent
+import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.DetailsActivity
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ItemTaskBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
@@ -60,22 +63,21 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
             itemBinding.tvName.text = task.name
         }
 
-        override fun onClick(v: View?) {
-//            var goToProduct = Intent(context, ProductActivity::class.java)
-//
-//            var bundle = Bundle()
-//            bundle.putString("name", product.name)
-//            bundle.putString("category", product.category)
-//            bundle.putDouble("price", product.price)
-//            bundle.putInt("img", product.img)
-//            bundle.putInt("img1", product.img1)
-//            bundle.putString("details", product.details)
-//
-//            goToProduct.putExtras(bundle)
-//            goToProduct.putExtra("source", "CAME FROM ADAPTER")
-//
-//            goToProduct.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-//            context.startActivity(goToProduct)
+        override fun onClick(view: View?) {
+            var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
+
+            goToDetailsActivity.putExtra("name", task.name)
+            /*bundle.putString("category", product.category)
+            bundle.putDouble("price", product.price)
+            bundle.putInt("img", product.img)
+            bundle.putInt("img1", product.img1)
+            bundle.putString("details", product.details)*/
+
+            /*goToProduct.putExtras(bundle)
+            goToProduct.putExtra("source", "CAME FROM ADAPTER")*/
+
+            goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            context.startActivity(goToDetailsActivity)
             println("Testing")
         }
     }
