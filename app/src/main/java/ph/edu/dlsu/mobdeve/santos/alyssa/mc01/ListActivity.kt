@@ -39,6 +39,15 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
 
             taskAdapter.addAccount(task)
         }
+
+        binding.btnAdd.setOnClickListener {
+            val intent = Intent(this, AddActivity::class.java)
+            intent.putExtra("title", "Error")
+            intent.putExtra("description", "Sorry, that email address is already used!")
+            intent.putExtra("save", "OK")
+            intent.putExtra("darkstatusbar", false)
+            startActivity(intent)
+        }
     }
 
     private fun init()

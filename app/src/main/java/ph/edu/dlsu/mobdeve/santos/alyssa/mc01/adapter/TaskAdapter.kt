@@ -67,14 +67,6 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
             var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
 
             goToDetailsActivity.putExtra("name", task.name)
-            /*bundle.putString("category", product.category)
-            bundle.putDouble("price", product.price)
-            bundle.putInt("img", product.img)
-            bundle.putInt("img1", product.img1)
-            bundle.putString("details", product.details)*/
-
-            /*goToProduct.putExtras(bundle)
-            goToProduct.putExtra("source", "CAME FROM ADAPTER")*/
 
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)
