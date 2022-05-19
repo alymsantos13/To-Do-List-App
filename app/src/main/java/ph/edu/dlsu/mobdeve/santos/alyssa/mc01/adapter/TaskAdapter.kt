@@ -25,7 +25,7 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     fun addTask(task: Task)
     {
         taskArrayList.add(0, task)
-        notifyItemInserted(1)
+        notifyItemInserted(0)
         notifyDataSetChanged()
     }
 

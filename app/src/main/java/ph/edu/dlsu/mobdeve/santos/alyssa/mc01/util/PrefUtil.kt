@@ -1,10 +1,13 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util
 
 import android.content.Context
-import androidx.preference.PreferenceManager
+import android.content.SharedPreferences
+import android.preference.PreferenceManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.TimerActivity
 
 class PrefUtil {
+    private var appPreferences : SharedPreferences? = null
+    private val PREFS = "appPreferences"
     companion object{
 
         fun getTimerLength(context : Context) : Int {
@@ -15,7 +18,8 @@ class PrefUtil {
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "ph.edu.dlsu.mobdeve.santos.alyssa.timer.previous_timer_length"
 
         fun getPreviousTimerLengthSeconds(context : Context) : Long {
-            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            val PREFS = "appPreferences"
+            val preferences = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
             return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
         }
 
