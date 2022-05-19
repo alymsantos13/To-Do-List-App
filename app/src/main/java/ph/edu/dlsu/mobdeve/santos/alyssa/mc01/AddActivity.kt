@@ -4,17 +4,19 @@ import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
 import android.animation.ArgbEvaluator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.animation.DecelerateInterpolator
 import androidx.core.graphics.ColorUtils
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityAddBinding
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
 class AddActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAddBinding
-    private lateinit var taskAdapter : TaskAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -22,15 +24,11 @@ class AddActivity : AppCompatActivity() {
         overridePendingTransition(0,0)
         setContentView(binding.root)
 
-        val bundle = intent.extras
+       /* val bundle = intent.extras
         var name = bundle?.getString("title", "Title") ?: ""
         var description = bundle?.getString("popuptext", "Text") ?: ""
         var save = bundle?.getString("save", "Button") ?: ""
-        var darkStatusBar = bundle?.getBoolean("darkstatusbar", false) ?: false
-
-        binding.popupWindowTitle.text = name
-        binding.popupWindowText.text = description
-        binding.popupWindowButton.text = save
+        var darkStatusBar = bundle?.getBoolean("darkstatusbar", false) ?: false*/
 
         // Fade animation for the background of Popup Window
         val alpha = 100 //between 0-255
@@ -55,11 +53,15 @@ class AddActivity : AppCompatActivity() {
         ).start()
 
         binding.popupWindowButton.setOnClickListener {
-            onBackPressed()
+            val goToListActivity = Intent(this, ListActivity::class.java)
+            goToListActivity.putExtra("title", binding.tvTitle1.text.toString())
+
+            goToListActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+            startActivity(goToListActivity)
         }
     }
 
-    override fun onBackPressed() {
+    /*override fun onBackPressed() {
         // Fade animation for the background of Popup Window when you press the back button
         val alpha = 100 // between 0-255
         val alphaColor = ColorUtils.setAlphaComponent(Color.parseColor("#000000"), alpha)
@@ -84,5 +86,5 @@ class AddActivity : AppCompatActivity() {
             }
         })
         colorAnimation.start()
-    }
+    }*/
 }

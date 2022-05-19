@@ -3,6 +3,7 @@ package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
@@ -33,21 +34,26 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
-        binding.btnAdd.setOnClickListener{
+        /*binding.btnAdd.setOnClickListener{
             var task = Task()
             task.name = binding.etTask.text.toString()
 
-            taskAdapter.addAccount(task)
-        }
+            taskAdapter.addTask(task)
+        }*/
 
         binding.btnAdd.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
-            intent.putExtra("title", "Error")
-            intent.putExtra("description", "Sorry, that email address is already used!")
-            intent.putExtra("save", "OK")
-            intent.putExtra("darkstatusbar", false)
             startActivity(intent)
         }
+
+        var title = intent.getStringExtra("title")
+        if(title != null) {
+            var task = Task()
+            task.name = "$title"
+
+            taskAdapter.addTask(task)
+        }
+
     }
 
     private fun init()
@@ -65,6 +71,23 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         task = Task()
         task.name = "Wash the dishes"
         dao.addTask(task)
+
+        task = Task()
+        task.name = "Wash the dishes"
+        dao.addTask(task)
+
+        task = Task()
+        task.name = "Wash the dishes"
+        dao.addTask(task)
+
+        task = Task()
+        task.name = "Wash the dishes"
+        dao.addTask(task)
+
+        task = Task()
+        task.name = "Wash the dishes"
+        dao.addTask(task)
+
 
         taskArrayList = dao.getTask()
     }

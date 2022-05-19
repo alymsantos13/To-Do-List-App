@@ -22,10 +22,16 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     }
 
     //Function to add an entry in the recycler view
-    fun addAccount(task: Task)
+    fun addTask(task: Task)
     {
         taskArrayList.add(0, task)
-        notifyItemInserted(0)
+        notifyItemInserted(1)
+        notifyDataSetChanged()
+    }
+
+    fun removeTask(position: Int) {
+       taskArrayList.removeAt(position)
+        notifyItemRemoved(position)
         notifyDataSetChanged()
     }
 
@@ -70,7 +76,6 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)
-            println("Testing")
         }
     }
 }
