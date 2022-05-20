@@ -1,5 +1,8 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
+import android.app.AlarmManager
+import android.app.PendingIntent
+import android.app.PendingIntent.FLAG_MUTABLE
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -10,10 +13,33 @@ import android.os.CountDownTimer
 import android.view.View
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityTimerBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.PrefUtil
+import java.util.*
 import kotlin.math.roundToInt
 
 class TimerActivity : AppCompatActivity(), View.OnClickListener {
 
+    companion object{
+        fun setAlarm(context: Context, nowSeconds: Long, secondsRemaining: Long) :Long {
+            val wakeUpTime = (nowSeconds + secondsRemaining) * 1000
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            val intent = Intent(context, TimerReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_MUTABLE)
+
+            alarmManager.setExact(AlarmManager.RTC_WAKEUP, wakeUpTime, pendingIntent)
+            PrefUtil.setAlarmSetTime(nowSeconds, context)
+
+            return wakeUpTime
+        }
+        fun removeAlarm(context: Context) {
+            val intent =Intent(context,TimerReceiver::class.java)
+            val pendingIntent = PendingIntent.getBroadcast(context, 0, intent, FLAG_MUTABLE)
+            val alarmManager = context.getSystemService(Context.ALARM_SERVICE) as AlarmManager
+            alarmManager.cancel(pendingIntent)
+            PrefUtil.setAlarmSetTime(0, context)
+        }
+        val nowSeconds: Long
+            get() = Calendar.getInstance().timeInMillis / 1000
+    }
     enum class TimerState
     {
         Stopped, Paused, Running
@@ -60,6 +86,8 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         super.onResume()
 
         initTimer()
+
+        removeAlarm(this)
     }
 
     override fun onPause() {
@@ -68,6 +96,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         if (timerState == TimerState.Running)
         {
             timer.cancel()
+            val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
         }
         else if (timerState == TimerState.Paused)
         {
@@ -93,7 +122,14 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         else
             timerLengthSeconds
 
-        if (timerState == TimerState.Running)
+        val alarmSetTime = PrefUtil.getAlarmSetTime(this)
+        if(alarmSetTime > 0)
+                secondsRemaining -= nowSeconds - alarmSetTime
+
+        if(secondsRemaining <= 0)
+            onTimerFinished()
+
+       else if (timerState == TimerState.Running)
             startTimer()
 
         updateButtons()

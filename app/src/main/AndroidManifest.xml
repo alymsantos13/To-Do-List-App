@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ph.edu.dlsu.mobdeve.santos.alyssa.mc01">
-
+    <uses-permission android:name="android.permission.SCHEDULE_EXACT_ALARM"/>
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,6 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MC01">
+        <receiver
+            android:name=".TimerReceiver"
+            android:enabled="true"
+            android:exported="false"></receiver>
+
         <activity
             android:name=".AddActivity"
             android:exported="false" />

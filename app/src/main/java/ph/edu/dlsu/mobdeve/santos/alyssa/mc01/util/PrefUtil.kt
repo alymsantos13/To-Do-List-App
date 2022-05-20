@@ -19,7 +19,7 @@ class PrefUtil {
 
         fun getPreviousTimerLengthSeconds(context : Context) : Long {
             val PREFS = "appPreferences"
-            val preferences = context.getSharedPreferences(PREFS, Context.MODE_PRIVATE)
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
             return preferences.getLong(PREVIOUS_TIMER_LENGTH_SECONDS_ID, 0)
         }
 
@@ -54,6 +54,19 @@ class PrefUtil {
         fun setSecondsRemaining(seconds: Long, context : Context){
             val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
             editor.putLong(SECONDS_REMAINING_ID, seconds)
+            editor.apply()
+        }
+
+        private const val ALARM_SET_TIME_ID = "ph.edu.dlsu.mobdeve.santos.alyssa.timer.backgrounded_time"
+
+        fun getAlarmSetTime(context: Context) : Long{
+            val preferences = PreferenceManager.getDefaultSharedPreferences(context)
+            return preferences.getLong(ALARM_SET_TIME_ID, 0)
+        }
+
+        fun setAlarmSetTime(time: Long, context: Context){
+            val editor = PreferenceManager.getDefaultSharedPreferences(context).edit()
+            editor.putLong(ALARM_SET_TIME_ID, time)
             editor.apply()
         }
     }
