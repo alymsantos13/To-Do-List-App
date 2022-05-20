@@ -18,7 +18,9 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnLogout.setOnClickListener(this)
 
         val name = intent.getStringExtra("name")
+        val desc = intent.getStringExtra("desc")
         binding.tvTitle.text = "$name"
+        binding.tvDescription.text = "$desc"
     }
 
     override fun onClick(view: View?) {

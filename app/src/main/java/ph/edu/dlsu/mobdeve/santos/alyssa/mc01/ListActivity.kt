@@ -1,10 +1,12 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
 import android.content.Intent
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
@@ -13,6 +15,7 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
+import java.time.LocalDate
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityListBinding
@@ -20,6 +23,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var taskArrayList : ArrayList<Task>
     private lateinit var itemTouchHelper: ItemTouchHelper
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
@@ -40,26 +44,31 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
-        binding.btnAdd.setOnClickListener{
+        /*binding.btnAdd.setOnClickListener{
             var task = Task()
             task.name = binding.etTask.text.toString()
 
             taskAdapter.addTask(task)
-        }
+        }*/
 
-       /* binding.btnAdd.setOnClickListener {
+        binding.btnAdd.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
+            finish()
         }
 
         var title = intent.getStringExtra("title")
+        var desc = intent.getStringExtra("desc")
+        var date = intent.getStringExtra("date")
         if(title != null) {
             var task = Task()
             task.name = "$title"
+            task.description = "$desc"
+           // task.dueDate = LocalDate.parse("date")
 
             taskAdapter.addTask(task)
-            println("$taskAdapter")
-        }*/
+
+        }
 
     }
 

@@ -73,6 +73,8 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
             var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
 
             goToDetailsActivity.putExtra("name", task.name)
+            goToDetailsActivity.putExtra("desc", task.description)
+            goToDetailsActivity.putExtra("desc", task.dueDate)
 
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)
