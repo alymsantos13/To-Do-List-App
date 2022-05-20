@@ -56,6 +56,8 @@ class AddActivity : AppCompatActivity() {
             val goToListActivity = Intent(this, ListActivity::class.java)
             goToListActivity.putExtra("title", binding.tvTitle1.text.toString())
 
+            binding.tvTitle1.text?.clear()
+
             goToListActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             startActivity(goToListActivity)
         }

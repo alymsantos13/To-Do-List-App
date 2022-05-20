@@ -5,8 +5,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
@@ -16,7 +18,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityListBinding
     private lateinit var taskAdapter : TaskAdapter
     private lateinit var taskArrayList : ArrayList<Task>
-
+    private lateinit var itemTouchHelper: ItemTouchHelper
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -28,20 +30,24 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)
         binding.rvList.setAdapter(taskAdapter)
 
+        var swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
+        swipeCallback.taskAdapter = taskAdapter
+        itemTouchHelper = ItemTouchHelper(swipeCallback)
+        itemTouchHelper.attachToRecyclerView(binding.rvList)
 
         //Navigation bar
         binding.btnTodo.setOnClickListener(this)
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
-        /*binding.btnAdd.setOnClickListener{
+        binding.btnAdd.setOnClickListener{
             var task = Task()
             task.name = binding.etTask.text.toString()
 
             taskAdapter.addTask(task)
-        }*/
+        }
 
-        binding.btnAdd.setOnClickListener {
+       /* binding.btnAdd.setOnClickListener {
             val intent = Intent(this, AddActivity::class.java)
             startActivity(intent)
         }
@@ -52,7 +58,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             task.name = "$title"
 
             taskAdapter.addTask(task)
-        }
+            println("$taskAdapter")
+        }*/
 
     }
 
@@ -72,21 +79,6 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         task.name = "Wash the dishes"
         dao.addTask(task)
 
-        task = Task()
-        task.name = "Wash the dishes"
-        dao.addTask(task)
-
-        task = Task()
-        task.name = "Wash the dishes"
-        dao.addTask(task)
-
-        task = Task()
-        task.name = "Wash the dishes"
-        dao.addTask(task)
-
-        task = Task()
-        task.name = "Wash the dishes"
-        dao.addTask(task)
 
 
         taskArrayList = dao.getTask()

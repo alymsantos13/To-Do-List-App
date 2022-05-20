@@ -24,8 +24,8 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     //Function to add an entry in the recycler view
     fun addTask(task: Task)
     {
-        taskArrayList.add(0, task)
-        notifyItemInserted(0)
+        taskArrayList.add(task)
+        notifyItemInserted(taskArrayList.size -1)
         notifyDataSetChanged()
     }
 
