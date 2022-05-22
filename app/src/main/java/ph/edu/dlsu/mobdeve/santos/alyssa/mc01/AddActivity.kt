@@ -1,24 +1,18 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
-import android.animation.Animator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ArgbEvaluator
-import android.animation.ValueAnimator
 import android.app.DatePickerDialog
 import android.content.Intent
-import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.animation.DecelerateInterpolator
-import androidx.core.graphics.ColorUtils
-import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityAddBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
+import android.text.format.DateFormat
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.formatDate
 import java.util.*
 
 class AddActivity : AppCompatActivity() {
     private lateinit var binding : ActivityAddBinding
+    private val date: Calendar = Calendar.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,28 +48,29 @@ class AddActivity : AppCompatActivity() {
             DecelerateInterpolator()
         ).start()*/
 
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
+        val dpd = DatePickerDialog(this, { _, year, month, dayOfMonth ->
+            date.set(year, month, dayOfMonth)
+            binding.tvDate.text = formatDate(date)
+        }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
 
         binding.btnDate.setOnClickListener{
-            val dpd = DatePickerDialog(this, DatePickerDialog.OnDateSetListener{view, year, month, dayOfMonth ->
-                binding.tvDate.setText("" + month + "/" + day + "/" + year)
-            }, year, month, day)
             dpd.show()
         }
         binding.popupWindowButton.setOnClickListener {
-            val goToListActivity = Intent(this, ListActivity::class.java)
-            goToListActivity.putExtra("title", binding.etTitle1.text.toString())
-            goToListActivity.putExtra("desc", binding.etDescription.text.toString())
-            goToListActivity.putExtra("date", binding.tvDate.text)
-            binding.etTitle1.text?.clear()
-
-            goToListActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            startActivity(goToListActivity)
+            setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
+                putExtra(TASK, Task(
+                    binding.etTitle1.text.toString(),
+                    binding.etDescription.text.toString(),
+                    Date(date.timeInMillis),
+                    true
+                ))
+            })
             finish()
         }
+    }
+
+    companion object {
+        const val TASK = "TASK"
     }
 
     /*override fun onBackPressed() {

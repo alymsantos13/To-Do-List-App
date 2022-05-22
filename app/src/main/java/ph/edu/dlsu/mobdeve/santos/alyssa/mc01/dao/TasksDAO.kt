@@ -5,6 +5,8 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
+import java.util.*
+import kotlin.collections.ArrayList
 
 interface TasksDAO {
     fun addTask(task: Task)
@@ -33,7 +35,7 @@ class TasksDAOSQLImpl(var context: Context): TasksDAO{
         val contentValues = ContentValues() //data na issave sa db
         contentValues.put(DatabaseHandler.KEYNAME, task.name)
         contentValues.put(DatabaseHandler.KEYDESCRIPTION, task.description)
-        contentValues.put(DatabaseHandler.KEYPASSWORD, task.password)
+       // contentValues.put(DatabaseHandler.KEYPASSWORD, task.password)
         contentValues.put(DatabaseHandler.KEYDATE, task.dueDate.toString())
 
         val success = db.insert(DatabaseHandler.TABLETASKS, null, contentValues) //pag ipapasok mo na yung data sa db
@@ -58,15 +60,14 @@ class TasksDAOSQLImpl(var context: Context): TasksDAO{
             return ArrayList()
         }
 
-        var task = Task()
         if(cursor.moveToFirst()){ //may data move to first
             do{
-                task = Task()
-                task.name = cursor.getString(0)
-                task.description = cursor.getString(1)
-                task.password = cursor.getString(2)
-                //task.dueDate = cursor.getString(3)
-                taskList.add(task)
+                taskList.add(Task(
+                    cursor.getString(0),
+                    cursor.getString(1),
+                    Date(cursor.getLong(2)),
+                    cursor.getInt(3) == 1
+                ))
             } while(cursor.moveToNext())
         }
         return taskList  }

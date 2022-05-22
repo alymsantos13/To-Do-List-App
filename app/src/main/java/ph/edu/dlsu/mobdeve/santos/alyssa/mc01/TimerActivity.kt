@@ -45,7 +45,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         Stopped, Paused, Running
     }
 
-    private lateinit var timer : CountDownTimer
+    private var timer: CountDownTimer? = null
     private var timerLengthSeconds: Long = 0L
     private var timerState = TimerState.Stopped
     private var secondsRemaining = 0L
@@ -66,14 +66,14 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
 
         //Pause
         binding.btnPause.setOnClickListener { v ->
-            timer.cancel()
+            timer?.cancel()
             timerState = TimerState.Paused
             updateButtons()
         }
 
         //Reset
         binding.btnReset.setOnClickListener { v ->
-            timer.cancel()
+            timer?.cancel()
             onTimerFinished()
         }
 
@@ -95,7 +95,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
 
         if (timerState == TimerState.Running)
         {
-            timer.cancel()
+            timer?.cancel()
             val wakeUpTime = setAlarm(this, nowSeconds, secondsRemaining)
         }
         else if (timerState == TimerState.Paused)
@@ -140,7 +140,6 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
     {
         timerState = TimerState.Stopped
         setNewTimerLength()
-
 
         PrefUtil.setSecondsRemaining(timerLengthSeconds, this)
         secondsRemaining = timerLengthSeconds

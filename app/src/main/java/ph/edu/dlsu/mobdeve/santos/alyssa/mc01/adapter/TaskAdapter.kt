@@ -14,7 +14,7 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private var taskArrayList = ArrayList<Task>()
-    private lateinit var context: Context
+    private var context: Context
 
     constructor(context: Context, taskArrayList: ArrayList<Task>) {
         this.context = context
@@ -25,14 +25,12 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     fun addTask(task: Task)
     {
         taskArrayList.add(task)
-        notifyItemInserted(taskArrayList.size -1)
-        notifyDataSetChanged()
+        notifyItemInserted(taskArrayList.size - 1)
     }
 
     fun removeTask(position: Int) {
        taskArrayList.removeAt(position)
         notifyItemRemoved(position)
-        notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
@@ -58,7 +56,7 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     inner class TaskViewHolder(private val itemBinding: ItemTaskBinding) :
         RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener{
 
-        var task = Task()
+        private lateinit var task: Task
 
         init {
             itemView.setOnClickListener(this)
@@ -72,12 +70,12 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         override fun onClick(view: View?) {
             var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
 
-            goToDetailsActivity.putExtra("name", task.name)
-            goToDetailsActivity.putExtra("desc", task.description)
-            goToDetailsActivity.putExtra("desc", task.dueDate)
-
+            goToDetailsActivity.putExtra(TASK, task)
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)
         }
+    }
+    companion object {
+        const val TASK = "TASK"
     }
 }

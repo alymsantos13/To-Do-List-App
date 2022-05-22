@@ -4,10 +4,15 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityDetailsBinding
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.formatDate
+import java.util.*
 
 class DetailsActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding : ActivityDetailsBinding
+    private val date: Calendar = Calendar.getInstance()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailsBinding.inflate(layoutInflater)
@@ -17,10 +22,11 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
-        val name = intent.getStringExtra("name")
-        val desc = intent.getStringExtra("desc")
-        binding.tvTitle.text = "$name"
-        binding.tvDescription.text = "$desc"
+        val task = intent.getParcelableExtra<Task>(TaskAdapter.TASK)
+
+        binding.tvTitle.text = task?.name
+        binding.tvDescription.text = task?.description
+        binding.tvDue.text = formatDate(task?.dueDate)
     }
 
     override fun onClick(view: View?) {

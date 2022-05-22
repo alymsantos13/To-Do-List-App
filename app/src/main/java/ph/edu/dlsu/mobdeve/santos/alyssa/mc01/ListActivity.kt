@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -15,15 +16,23 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
-import java.time.LocalDate
+import java.util.*
+import kotlin.collections.ArrayList
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
-    private lateinit var binding : ActivityListBinding
-    private lateinit var taskAdapter : TaskAdapter
-    private lateinit var taskArrayList : ArrayList<Task>
+    private lateinit var binding: ActivityListBinding
+    private lateinit var taskAdapter: TaskAdapter
+    private lateinit var taskArrayList: ArrayList<Task>
     private lateinit var itemTouchHelper: ItemTouchHelper
 
-    @RequiresApi(Build.VERSION_CODES.O)
+    private val addResultLauncher =
+        registerForActivityResult(StartActivityForResult()) { result ->
+            // a new item as passed
+            result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
+                taskAdapter.addTask(it)
+            }
+        }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
@@ -44,40 +53,18 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
-        /*binding.btnAdd.setOnClickListener{
-            var task = Task()
-            task.name = binding.etTask.text.toString()
-
-            taskAdapter.addTask(task)
-        }*/
-
         binding.btnAdd.setOnClickListener {
-            val intent = Intent(this, AddActivity::class.java)
-            startActivity(intent)
-            finish()
+            addResultLauncher.launch(Intent(this, AddActivity::class.java))
         }
-
-        var title = intent.getStringExtra("title")
-        var desc = intent.getStringExtra("desc")
-        var date = intent.getStringExtra("date")
-        if(title != null) {
-            var task = Task()
-            task.name = "$title"
-            task.description = "$desc"
-           // task.dueDate = LocalDate.parse("date")
-
-            taskAdapter.addTask(task)
-
-        }
-
     }
 
-    private fun init()
-    {
-        var dao : TasksDAO = TasksDAOArrayImpl()
+    private fun init() {
+        var dao: TasksDAO = TasksDAOArrayImpl()
 
-        var task = Task()
-        task.name = "Water the plants"
+        var task = Task("Water the plants", "nice", Date(122, 4, 22), true)
+        dao.addTask(task)
+        taskArrayList = dao.getTask()
+        /*  task.name = "Water the plants"
         dao.addTask(task)
 
         task = Task()
@@ -87,31 +74,26 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         task = Task()
         task.name = "Wash the dishes"
         dao.addTask(task)
-
-
-
-        taskArrayList = dao.getTask()
+        */
     }
 
-
-    override fun onClick(view: View?) {
-        when(view!!.id)
-        {
-            R.id.btn_todo -> {
-                var goToListActivity = Intent(this, ListActivity::class.java)
-                startActivity(goToListActivity)
-                finish()
-            }
-            R.id.btn_timer -> {
-                var goToTimerActivity = Intent(this, TimerActivity::class.java)
-                startActivity(goToTimerActivity)
-                finish()
-            }
-            R.id.btn_logout -> {
-                var goToLoginActivity = Intent(this, LoginActivity::class.java)
-                startActivity(goToLoginActivity)
-                finish()
+        override fun onClick(view: View?) {
+            when (view!!.id) {
+                R.id.btn_todo -> {
+                    var goToListActivity = Intent(this, ListActivity::class.java)
+                    startActivity(goToListActivity)
+                    finish()
+                }
+                R.id.btn_timer -> {
+                    var goToTimerActivity = Intent(this, TimerActivity::class.java)
+                    startActivity(goToTimerActivity)
+                    finish()
+                }
+                R.id.btn_logout -> {
+                    var goToLoginActivity = Intent(this, LoginActivity::class.java)
+                    startActivity(goToLoginActivity)
+                    finish()
+                }
             }
         }
-    }
 }
