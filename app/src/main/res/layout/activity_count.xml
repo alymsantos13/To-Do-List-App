@@ -22,6 +22,7 @@
         android:background="@drawable/count_border"
         android:layout_margin="20dp">
 
+
         <TextView
             android:id="@+id/tv_you"
             android:layout_width="match_parent"
