@@ -39,10 +39,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        //init()
+        init()
 
-        dao = TasksDAOSQLImpl(applicationContext)
-        taskArrayList = dao.getTask()
+        /*dao = TasksDAOSQLImpl(applicationContext)
+        taskArrayList = dao.getTask()*/
 
         binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)
