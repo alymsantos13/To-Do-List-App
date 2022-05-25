@@ -14,6 +14,7 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOSQLImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 import java.util.*
@@ -24,6 +25,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var taskAdapter: TaskAdapter
     private lateinit var taskArrayList: ArrayList<Task>
     private lateinit var itemTouchHelper: ItemTouchHelper
+    private lateinit var dao: TasksDAO
 
     private val addResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -37,7 +39,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
+        //init()
+
+        dao = TasksDAOSQLImpl(applicationContext)
+        taskArrayList = dao.getTask()
 
         binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)

@@ -46,8 +46,8 @@ class TasksDAOSQLImpl(var context: Context): TasksDAO{
         val taskList:ArrayList<Task> = ArrayList<Task>()
         val selectQuery = "SELECT ${DatabaseHandler.KEYNAME}, " +
                 "${DatabaseHandler.KEYDESCRIPTION}, " +
-                "${DatabaseHandler.KEYPASSWORD}, " +
-                "${DatabaseHandler.KEYDATE} "
+                //"${DatabaseHandler.KEYPASSWORD}, " +
+                "${DatabaseHandler.KEYDATE}  "
                 "FROM ${DatabaseHandler.TABLETASKS}"
         var databaseHandler: DatabaseHandler = DatabaseHandler(context)
         val db = databaseHandler.readableDatabase
