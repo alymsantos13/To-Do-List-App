@@ -11,12 +11,13 @@ class DatabaseHandler (context: Context): SQLiteOpenHelper(context, DATABASENAME
         private val DATABASEVERSION = 1 //version need (nagadd ng table, columns) dapat nagbabago version?
         private val DATABASENAME = "ToDoDatabase" //filename ng database
 
-        val TABLETASKS = "TasksTable" //tables
-        val KEYID = "id" //columns
-        val KEYDESCRIPTION = "description"//columns
-        val KEYNAME = "name"//columns
+        const val TABLETASKS = "TasksTable" //tables
+        const val KEYID = "id" //columns
+        const val KEYDESCRIPTION = "description"//columns
+        const val KEYNAME = "name"//columns
         /*val KEYPASSWORD = "password"//columns*/
-        val KEYDATE = "dueDate"//columns
+        const val KEYDATE = "dueDate"//columns
+        const val KEYREPEAT = "repeat"
     }
     override fun onCreate(db: SQLiteDatabase) {
 
@@ -24,14 +25,14 @@ class DatabaseHandler (context: Context): SQLiteOpenHelper(context, DATABASENAME
                 "($KEYID INTEGER PRIMARY KEY AUTOINCREMENT, " + //dapat may space before " - AUTOINCREMENT (AUTOGENERATE ID)
                 "$KEYNAME TEXT, " +
                 "$KEYDESCRIPTION TEXT, " +
-              /*  "$KEYPASSWORD TEXT, " +*/
-                "$KEYDATE DATE)"
-        db?.execSQL(CREATETASKSTABLE)
+                "$KEYDATE INTEGER, " +
+                "$KEYREPEAT BOOLEAN)"
+        db.execSQL(CREATETASKSTABLE)
 
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {
-        db!!.execSQL("DROP TABLE IF EXISTS " + TABLETASKS)
+        db.execSQL("DROP TABLE IF EXISTS " + TABLETASKS)
         onCreate(db)
     }
 }

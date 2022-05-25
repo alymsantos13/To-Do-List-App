@@ -34,6 +34,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
                 taskAdapter.addTask(it)
                 dao.addTask(it)
+                Log.d("${it.dueDate}","${it.dueDate}")
             }
         }
 
@@ -68,9 +69,13 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private fun init() {
         var dao: TasksDAO = TasksDAOArrayImpl()
 
-        var task = Task("Water the plants", "nice", Date(122, 4, 22), true)
+        var task = Task("Water the plants", "nice", Date(122, 4, 22), false)
         dao.addTask(task)
         taskArrayList = dao.getTask()
+
+        /*task = Task("Cook a meal", "nice", Date(122, 4, 22), false)
+        dao.addTask(task)
+        taskArrayList = dao.getTask()*/
         /*  task.name = "Water the plants"
         dao.addTask(task)
 

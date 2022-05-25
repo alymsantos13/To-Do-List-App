@@ -116,7 +116,7 @@
                 <androidx.appcompat.widget.AppCompatTextView
                     android:id="@+id/tv_header1"
                     android:layout_width="85dp"
-                    android:layout_height="12dp"
+                    android:layout_height="15dp"
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
@@ -165,6 +165,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/et_description"
                     app:layout_constraintBottom_toTopOf="@+id/popup_window_button"/>
+
+                <CheckBox
+                    android:id="@+id/cb_repeat1"
+                    android:layout_width="162dp"
+                    android:layout_height="35dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:gravity="center|left"
+                    android:text="Repeat Everyday"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/popup_window_button"
+                    app:layout_constraintLeft_toRightOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/btn_date" />
 
 
                 <androidx.appcompat.widget.AppCompatTextView

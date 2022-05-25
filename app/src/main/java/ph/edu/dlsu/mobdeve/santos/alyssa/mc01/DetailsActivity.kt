@@ -3,6 +3,7 @@ package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityDetailsBinding
@@ -27,6 +28,12 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvTitle.text = task?.name
         binding.tvDescription.text = task?.description
         binding.tvDue.text = formatDate(task?.dueDate)
+        Log.d("${task?.repeat}","${task?.repeat}")
+
+        if (task != null) {
+            binding.cbRepeat.isChecked = task.repeat == true
+        }
+
     }
 
     override fun onClick(view: View?) {

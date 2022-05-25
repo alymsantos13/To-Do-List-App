@@ -62,7 +62,7 @@ class AddActivity : AppCompatActivity() {
                     binding.etTitle1.text.toString(),
                     binding.etDescription.text.toString(),
                     Date(date.timeInMillis),
-                    true
+                    binding.cbRepeat1.isChecked
                 ))
             })
             finish()

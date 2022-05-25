@@ -3,6 +3,7 @@ package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -65,11 +66,12 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         fun bindTask(task: Task) {
             this.task = task
             itemBinding.tvName.text = task.name
+
         }
 
         override fun onClick(view: View?) {
             var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
-
+            Log.d("${task.repeat}", "${task.repeat}")
             goToDetailsActivity.putExtra(TASK, task)
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)
