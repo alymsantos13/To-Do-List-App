@@ -11,9 +11,10 @@ class PrefUtil {
         private var appPreferences : SharedPreferences? = null
         private val PREFS = "appPreferences"
 
-        fun getTimerLength(context : Context) : Int {
+        fun getTimerLength(context : Context, length : Int) : Int {
             //Placeholder
-            return 2
+//            return 2
+            return length
         }
 
         private const val PREVIOUS_TIMER_LENGTH_SECONDS_ID = "ph.edu.dlsu.mobdeve.santos.alyssa.timer.previous_timer_length"
