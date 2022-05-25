@@ -11,6 +11,7 @@ import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter.Companion.TASK
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
@@ -32,6 +33,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             // a new item as passed
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
                 taskAdapter.addTask(it)
+                dao.addTask(it)
             }
         }
 
@@ -39,10 +41,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        init()
+  //      init()
 
-        /*dao = TasksDAOSQLImpl(applicationContext)
-        taskArrayList = dao.getTask()*/
+        dao = TasksDAOSQLImpl(applicationContext)
+        taskArrayList = dao.getTask()
 
         binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)

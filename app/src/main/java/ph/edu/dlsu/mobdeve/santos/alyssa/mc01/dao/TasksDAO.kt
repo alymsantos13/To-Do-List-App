@@ -44,11 +44,12 @@ class TasksDAOSQLImpl(var context: Context): TasksDAO{
 
     override fun getTask(): ArrayList<Task> {
         val taskList:ArrayList<Task> = ArrayList<Task>()
-        val selectQuery = "SELECT ${DatabaseHandler.KEYNAME}, " +
+        val selectQuery = "SELECT * FROM ${DatabaseHandler.TABLETASKS}"
+            /*"SELECT ${DatabaseHandler.KEYNAME}, " +
                 "${DatabaseHandler.KEYDESCRIPTION}, " +
                 //"${DatabaseHandler.KEYPASSWORD}, " +
                 "${DatabaseHandler.KEYDATE}  "
-                "FROM ${DatabaseHandler.TABLETASKS}"
+                "FROM ${DatabaseHandler.TABLETASKS}"*/
         var databaseHandler: DatabaseHandler = DatabaseHandler(context)
         val db = databaseHandler.readableDatabase
         var cursor: Cursor? = null
