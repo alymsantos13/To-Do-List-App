@@ -27,6 +27,7 @@
             android:id="@+id/et_minutes"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
+            android:inputType="number"
             android:hint="Minutes"
             android:textAlignment="center"
             tools:ignore="MissingConstraints" />

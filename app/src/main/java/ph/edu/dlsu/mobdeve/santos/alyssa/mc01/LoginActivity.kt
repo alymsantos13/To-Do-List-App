@@ -26,8 +26,8 @@ class LoginActivity : AppCompatActivity(), View.OnClickListener {
                 finish()
             }
             R.id.btn_login -> {
-                var goToListActivity = Intent(this, ListActivity::class.java)
-                startActivity(goToListActivity)
+                var goToCountActivity = Intent(this, CountActivity::class.java)
+                startActivity(goToCountActivity)
                 finish()
             }
         }

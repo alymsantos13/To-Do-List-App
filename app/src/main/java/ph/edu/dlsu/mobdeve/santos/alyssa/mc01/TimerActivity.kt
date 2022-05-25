@@ -50,12 +50,23 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
     private var timerState = TimerState.Stopped
     private var secondsRemaining = 0L
 
+    private lateinit var strTimerLength : String
+    private var timerLength : Int = 0
 
     private lateinit var binding : ActivityTimerBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //Set
+        binding.btnSet.setOnClickListener{
+            strTimerLength = binding.etMinutes.text.toString()
+            timerLength = strTimerLength.toInt()
+            timer?.cancel()
+            onTimerFinished()
+        }
 
         //Start
         binding.btnStart.setOnClickListener{v ->
@@ -164,7 +175,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
 
     private fun setNewTimerLength()
     {
-        val lengthInMinutes = PrefUtil.getTimerLength(this)
+        val lengthInMinutes = PrefUtil.getTimerLength(this, timerLength)
         timerLengthSeconds = (lengthInMinutes * 60L)
     }
 
