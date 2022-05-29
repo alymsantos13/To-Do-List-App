@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityAddBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
-import android.text.format.DateFormat
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.formatDate
 import java.util.*
 
@@ -59,6 +58,7 @@ class AddActivity : AppCompatActivity() {
         binding.popupWindowButton.setOnClickListener {
             setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
                 putExtra(TASK, Task(
+                    null,
                     binding.etTitle1.text.toString(),
                     binding.etDescription.text.toString(),
                     Date(date.timeInMillis),

@@ -5,12 +5,14 @@ import android.os.Parcelable
 import java.util.*
 
 data class Task(
+    var _id: Int? = 0,
     val name: String,
     val description: String,
     val dueDate: Date?,
     val repeat: Boolean,
 ): Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readInt(),
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         (parcel.readSerializable() as? Long)?.let { Date(it) },
@@ -18,6 +20,7 @@ data class Task(
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) = with(parcel) {
+        _id?.let { parcel.writeInt(it) }
         writeString(name)
         writeString(description)
         writeSerializable(dueDate?.time)

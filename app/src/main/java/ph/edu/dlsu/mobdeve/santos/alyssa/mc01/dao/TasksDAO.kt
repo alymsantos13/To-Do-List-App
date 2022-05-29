@@ -13,6 +13,7 @@ import kotlin.collections.ArrayList
 interface TasksDAO {
     fun addTask(task: Task)
     fun getTask(): ArrayList<Task>
+    fun deleteTask(id: Int?)
 }
 
 class TasksDAOArrayImpl : TasksDAO {
@@ -26,6 +27,10 @@ class TasksDAOArrayImpl : TasksDAO {
     override fun getTask(): ArrayList<Task> {
         return arrayListTasks
     }
+
+    override fun deleteTask(id: Int?) {
+        arrayListTasks.removeAt(id!!)
+    }
 }
 
 class TasksDAOSQLImpl(var context: Context) : TasksDAO {
@@ -35,9 +40,13 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         var databaseHandler: DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
         val contentValues = ContentValues() //data na issave sa db
+        Log.d("${task._id}", "${task._id}")
+        Log.d("${task.name}", "${task.name}")
+        Log.d("${task.description}", "${task.description}")
+        Log.d("${task.dueDate}", "${task.dueDate}")
+        contentValues.put(DatabaseHandler.KEYID, task._id)
         contentValues.put(DatabaseHandler.KEYNAME, task.name)
         contentValues.put(DatabaseHandler.KEYDESCRIPTION, task.description)
-        // contentValues.put(DatabaseHandler.KEYPASSWORD, task.password)
         contentValues.put(DatabaseHandler.KEYDATE, task.dueDate!!.time)
         contentValues.put(DatabaseHandler.KEYREPEAT, task.repeat)
 
@@ -70,6 +79,7 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
                 do {
                     taskList.add(
                         Task(
+                            getInt(getColumnIndex(DatabaseHandler.KEYID)),
                             getString(getColumnIndex(DatabaseHandler.KEYNAME)),
                             getString(getColumnIndex(DatabaseHandler.KEYDESCRIPTION)),
                             Date(getLong(getColumnIndex((DatabaseHandler.KEYDATE)))),
@@ -80,6 +90,16 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
             }
         }
         return taskList
+    }
+
+    override fun deleteTask(id: Int?){
+        var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
+        val db = databaseHandler.writableDatabase //important na writable
+
+        val success = db.delete(DatabaseHandler.TABLETASKS, DatabaseHandler.KEYID + "=" + id , null)
+
+
+        db.close()
     }
 
 }

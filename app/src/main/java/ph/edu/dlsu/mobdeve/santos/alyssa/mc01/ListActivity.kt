@@ -1,17 +1,14 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
-import androidx.annotation.RequiresApi
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
-import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter.Companion.TASK
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
@@ -69,24 +66,10 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private fun init() {
         var dao: TasksDAO = TasksDAOArrayImpl()
 
-        var task = Task("Water the plants", "nice", Date(122, 4, 22), false)
+        var task = Task(0,"Water the plants", "nice", Date(122, 4, 22), false)
         dao.addTask(task)
         taskArrayList = dao.getTask()
 
-        /*task = Task("Cook a meal", "nice", Date(122, 4, 22), false)
-        dao.addTask(task)
-        taskArrayList = dao.getTask()*/
-        /*  task.name = "Water the plants"
-        dao.addTask(task)
-
-        task = Task()
-        task.name = "Do the laundry"
-        dao.addTask(task)
-
-        task = Task()
-        task.name = "Wash the dishes"
-        dao.addTask(task)
-        */
     }
 
         override fun onClick(view: View?) {

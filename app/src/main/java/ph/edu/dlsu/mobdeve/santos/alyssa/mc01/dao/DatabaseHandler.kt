@@ -12,7 +12,7 @@ class DatabaseHandler (context: Context): SQLiteOpenHelper(context, DATABASENAME
         private val DATABASENAME = "ToDoDatabase" //filename ng database
 
         const val TABLETASKS = "TasksTable" //tables
-        const val KEYID = "id" //columns
+        const val KEYID = "_id" //columns
         const val KEYDESCRIPTION = "description"//columns
         const val KEYNAME = "name"//columns
         /*val KEYPASSWORD = "password"//columns*/

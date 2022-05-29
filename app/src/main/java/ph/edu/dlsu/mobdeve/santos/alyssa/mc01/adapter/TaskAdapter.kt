@@ -2,13 +2,14 @@ package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.DetailsActivity
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOSQLImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ItemTaskBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
@@ -16,6 +17,7 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
 
     private var taskArrayList = ArrayList<Task>()
     private var context: Context
+    private lateinit var dao: TasksDAO
 
     constructor(context: Context, taskArrayList: ArrayList<Task>) {
         this.context = context
@@ -30,9 +32,13 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     }
 
     fun removeTask(position: Int) {
-       taskArrayList.removeAt(position)
+        val id= taskArrayList.removeAt(position)._id
+        dao = TasksDAOSQLImpl(context)
+        dao.deleteTask(id)
         notifyItemRemoved(position)
     }
+
+
 
     override fun getItemCount(): Int {
         return taskArrayList.size
