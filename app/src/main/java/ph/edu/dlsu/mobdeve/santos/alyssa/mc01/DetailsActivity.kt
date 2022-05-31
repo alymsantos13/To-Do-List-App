@@ -28,7 +28,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvTitle.text = task?.name
         binding.tvDescription.text = task?.description
         binding.tvDue.text = formatDate(task?.dueDate)
-        Log.d("${task?.repeat}","${task?.repeat}")
+        Log.d("TASK", task.toString())
 
         if (task != null) {
             binding.cbRepeat.isChecked = task.repeat == true

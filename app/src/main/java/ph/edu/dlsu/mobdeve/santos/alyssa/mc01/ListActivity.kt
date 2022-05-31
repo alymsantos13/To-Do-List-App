@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
-import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOArrayImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOSQLImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
@@ -29,9 +28,9 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         registerForActivityResult(StartActivityForResult()) { result ->
             // a new item as passed
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
+                Log.d("TASK", it.toString())
                 taskAdapter.addTask(it)
                 dao.addTask(it)
-                Log.d("${it.dueDate}","${it.dueDate}")
             }
         }
 
@@ -63,14 +62,14 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
-    private fun init() {
+   /* private fun init() {
         var dao: TasksDAO = TasksDAOArrayImpl()
 
         var task = Task(0,"Water the plants", "nice", Date(122, 4, 22), false)
         dao.addTask(task)
         taskArrayList = dao.getTask()
 
-    }
+    }*/
 
         override fun onClick(view: View?) {
             when (view!!.id) {

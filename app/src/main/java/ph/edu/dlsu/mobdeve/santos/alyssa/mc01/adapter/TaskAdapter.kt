@@ -32,7 +32,7 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     }
 
     fun removeTask(position: Int) {
-        val id= taskArrayList.removeAt(position)._id
+        val id = taskArrayList.removeAt(position)._id
         dao = TasksDAOSQLImpl(context)
         dao.deleteTask(id)
         notifyItemRemoved(position)

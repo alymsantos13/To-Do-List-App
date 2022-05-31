@@ -13,24 +13,7 @@ import kotlin.collections.ArrayList
 interface TasksDAO {
     fun addTask(task: Task)
     fun getTask(): ArrayList<Task>
-    fun deleteTask(id: Int?)
-}
-
-class TasksDAOArrayImpl : TasksDAO {
-
-    private var arrayListTasks = ArrayList<Task>()
-
-    override fun addTask(task: Task) {
-        arrayListTasks.add(0, task)
-    }
-
-    override fun getTask(): ArrayList<Task> {
-        return arrayListTasks
-    }
-
-    override fun deleteTask(id: Int?) {
-        arrayListTasks.removeAt(id!!)
-    }
+    fun deleteTask(id: Long?)
 }
 
 class TasksDAOSQLImpl(var context: Context) : TasksDAO {
@@ -40,21 +23,17 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         var databaseHandler: DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
         val contentValues = ContentValues() //data na issave sa db
-        Log.d("${task._id}", "${task._id}")
-        Log.d("${task.name}", "${task.name}")
-        Log.d("${task.description}", "${task.description}")
-        Log.d("${task.dueDate}", "${task.dueDate}")
-        contentValues.put(DatabaseHandler.KEYID, task._id)
+
         contentValues.put(DatabaseHandler.KEYNAME, task.name)
         contentValues.put(DatabaseHandler.KEYDESCRIPTION, task.description)
         contentValues.put(DatabaseHandler.KEYDATE, task.dueDate!!.time)
         contentValues.put(DatabaseHandler.KEYREPEAT, task.repeat)
 
-        val success = db.insert(
+        task._id = db.insert(
             DatabaseHandler.TABLETASKS,
             null,
             contentValues
-        ) //pag ipapasok mo na yung data sa db
+        )
         db.close() //do not forget to close db
     }
 
@@ -79,7 +58,7 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
                 do {
                     taskList.add(
                         Task(
-                            getInt(getColumnIndex(DatabaseHandler.KEYID)),
+                            getLong(cursor.getColumnIndex(DatabaseHandler.KEYID)),
                             getString(getColumnIndex(DatabaseHandler.KEYNAME)),
                             getString(getColumnIndex(DatabaseHandler.KEYDESCRIPTION)),
                             Date(getLong(getColumnIndex((DatabaseHandler.KEYDATE)))),
@@ -92,12 +71,10 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         return taskList
     }
 
-    override fun deleteTask(id: Int?){
+    override fun deleteTask(id: Long?){
         var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
-
         val success = db.delete(DatabaseHandler.TABLETASKS, DatabaseHandler.KEYID + "=" + id , null)
-
 
         db.close()
     }
