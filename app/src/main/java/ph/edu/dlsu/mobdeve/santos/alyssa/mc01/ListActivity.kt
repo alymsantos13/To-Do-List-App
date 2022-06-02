@@ -76,12 +76,12 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
                 R.id.btn_todo -> {
                     var goToListActivity = Intent(this, ListActivity::class.java)
                     startActivity(goToListActivity)
-                    finish()
+
                 }
                 R.id.btn_timer -> {
                     var goToTimerActivity = Intent(this, TimerActivity::class.java)
                     startActivity(goToTimerActivity)
-                    finish()
+
                 }
                 R.id.btn_logout -> {
                     var goToLoginActivity = Intent(this, LoginActivity::class.java)

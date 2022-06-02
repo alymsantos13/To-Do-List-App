@@ -7,8 +7,16 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context=".DetailsActivity"
-    android:orientation="vertical">
-
+    android:orientation="vertical"
+    android:background="@color/peach"
+    >
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_margin="10dp"
+        android:background="@color/white"
+        >
     <TextView
         android:id="@+id/tv_details"
         android:layout_width="match_parent"
@@ -16,22 +24,41 @@
         android:background="@drawable/tv_border"
         android:gravity="center"
         android:padding="10dp"
-        android:text="Details"
+        android:text="Task Details"
         android:textColor="@color/black"
-        android:textSize="24sp" />
+        android:textSize="24sp"
+        />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="italic|bold"
+            android:text="Task Title:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:background="@drawable/tv_border"/>
     <TextView
         android:id="@+id/tv_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="left"
-        android:textStyle="italic"
         android:textSize="20sp"
         android:textColor="@color/black"
         android:padding="10dp"
         android:background="@drawable/tv_border"
         />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="italic|bold"
+            android:text="Task Description:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:background="@drawable/tv_border"/>
     <TextView
         android:id="@+id/tv_description"
         android:layout_width="match_parent"
@@ -43,7 +70,16 @@
         android:padding="10dp"
         android:background="@drawable/tv_border"
         />
-
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="left"
+            android:textStyle="italic|bold"
+            android:text="Task Due Date:"
+            android:textSize="20sp"
+            android:textColor="@color/black"
+            android:padding="10dp"
+            android:background="@drawable/tv_border"/>
     <TextView
         android:id="@+id/tv_due"
         android:layout_width="match_parent"
@@ -65,8 +101,8 @@
         android:text="Repeat Everyday"
         android:padding="10dp"
         android:background="@drawable/tv_border"/>
-
-    <TextView
+    </LinearLayout>
+    <!--<TextView
         android:id="@+id/tv_notes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,14 +112,14 @@
         android:textColor="@color/black"
         android:padding="10dp"
         android:drawableRight="@drawable/pencil"
-        />
+        />-->
 
-    <TextView
+    <!--<TextView
         android:id="@+id/et_notes"
         android:layout_width="match_parent"
         android:layout_height="342dp"
         android:layout_gravity="center"
-        android:hint="Write notes here" />
+        android:hint="Write notes here" />-->
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
