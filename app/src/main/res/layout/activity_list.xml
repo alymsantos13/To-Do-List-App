@@ -35,10 +35,11 @@
         android:layout_height="wrap_content"
         android:layout_gravity="right"
         android:textSize="20sp"
-        android:text="Completed"
+        android:text="Completed Tasks"
         android:padding="10dp"
         app:layout_constraintBottom_toTopOf="@+id/rv_list"
         app:layout_constraintLeft_toRightOf="@id/tv_title"
+        app:layout_constraintRight_toRightOf="parent"
         />
 
     <androidx.recyclerview.widget.RecyclerView
