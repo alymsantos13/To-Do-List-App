@@ -25,6 +25,7 @@ class CountActivity : AppCompatActivity() {
             startActivity(goToListActivity)
         }, 3000)
 
+
         //Counting the tasks
         dao = TasksDAOSQLImpl(applicationContext)
         binding.tvCount.text = dao.getTaskCount()
