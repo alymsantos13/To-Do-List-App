@@ -14,6 +14,7 @@ interface TasksDAO {
     fun addTask(task: Task)
     fun getTask(): ArrayList<Task>
     fun deleteTask(id: Long?)
+    fun getTaskCount() : String
 }
 
 class TasksDAOSQLImpl(var context: Context) : TasksDAO {
@@ -79,4 +80,18 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         db.close()
     }
 
+    //Counting the tasks
+    override fun getTaskCount(): String {
+        val selectQuery = "SELECT COUNT(*) FROM ${DatabaseHandler.TABLETASKS}"
+        var databaseHandler: DatabaseHandler = DatabaseHandler(context)
+        val db = databaseHandler.readableDatabase
+        var cursor: Cursor? = null
+
+        cursor = db.rawQuery(selectQuery, null)
+
+
+        var count : Int = if(cursor.moveToFirst()) { cursor.getInt(0) } else { 0 }
+        db.close()
+        return count.toString()
+    }
 }

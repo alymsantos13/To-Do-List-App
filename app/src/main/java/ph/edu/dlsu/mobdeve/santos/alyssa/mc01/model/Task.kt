@@ -9,7 +9,7 @@ data class Task(
     val name: String,
     val description: String,
     val dueDate: Date?,
-    val repeat: Boolean,
+    val repeat: Boolean
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readSerializable() as? Long,
