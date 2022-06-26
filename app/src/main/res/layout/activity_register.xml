@@ -7,11 +7,12 @@
     android:layout_height="match_parent"
     android:gravity="center"
     tools:context=".RegisterActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:background="@drawable/background">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="249dp"
+        android:layout_height="wrap_content"
         android:src="@drawable/logo"
         />
 
@@ -19,27 +20,34 @@
         android:id="@+id/et_password1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#30ffffff"
         android:hint="@string/hint"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
+        android:drawablePadding="20dp"
         />
 
     <EditText
         android:id="@+id/et_password2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="@string/confirm"
-        android:layout_marginLeft="40dp"
-        android:layout_marginRight="40dp"
+        android:background="#30ffffff"
+        android:hint="Confirm Password Here"
+        android:textColor="@color/black"
+        android:layout_margin="10dp"
+        android:padding="20dp"
+        android:drawableLeft="@drawable/ic_baseline_vpn_key_24"
+        android:drawablePadding="20dp"
         />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/btn_confirm"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginRight="70dp"
-        android:layout_marginLeft="70dp"
-        android:text="@string/register"
+        android:layout_margin="20dp"
+        android:text="Register"
         android:background="@color/pink"
         android:textAllCaps="false"/>
 </LinearLayout>
