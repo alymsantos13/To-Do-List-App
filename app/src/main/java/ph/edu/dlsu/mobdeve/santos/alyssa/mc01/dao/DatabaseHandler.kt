@@ -35,7 +35,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(
                 "$KEYREPEAT BOOLEAN)"
         db.execSQL(CREATETASKSTABLE)
 
-        with(ContentValues()) {
+        /*with(ContentValues()) {
             put(KEYNAME, "Note 1")
             put(KEYDESCRIPTION, "My Description")
             put(KEYDATE, Calendar.getInstance().timeInMillis)
@@ -46,7 +46,7 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(
             put(KEYDESCRIPTION, "My Other Description")
             put(KEYREPEAT, true)
             db.insert(TABLETASKS, null, this)
-        }
+        }*/
     }
 
     override fun onUpgrade(db: SQLiteDatabase, oldVersion: Int, newVersion: Int) {

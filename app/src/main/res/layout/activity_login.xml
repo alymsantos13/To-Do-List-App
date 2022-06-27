@@ -16,10 +16,12 @@
         android:src="@drawable/logo"
        />
 
+
     <EditText
         android:id="@+id/et_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:inputType="textPassword"
         android:background="#30ffffff"
         android:hint="@string/hint"
         android:textColor="@color/black"

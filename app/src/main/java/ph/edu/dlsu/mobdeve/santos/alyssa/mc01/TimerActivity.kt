@@ -11,8 +11,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.CountDownTimer
 import android.view.View
+import android.widget.Toast
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityTimerBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.PrefUtil
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.StoragePreferences
 import java.util.*
 import kotlin.math.roundToInt
 
@@ -53,6 +55,8 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var strTimerLength : String
     private var timerLength : Int = 0
 
+    var sharedPreferences : StoragePreferences? = null
+
     private lateinit var binding : ActivityTimerBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -60,6 +64,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityTimerBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        sharedPreferences = StoragePreferences(this)
         //Set
         binding.btnSet.setOnClickListener{
             strTimerLength = binding.etMinutes.text.toString()
@@ -232,6 +237,8 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
 
             }
             R.id.btn_logout -> {
+                sharedPreferences!!.saveStringPreferences("login_status", "")
+                Toast.makeText(this, "Successfully Logged out", Toast.LENGTH_SHORT).show()
                 var goToLoginActivity = Intent(this, LoginActivity::class.java)
                 startActivity(goToLoginActivity)
                 finish()
