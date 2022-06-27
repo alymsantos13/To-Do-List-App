@@ -34,7 +34,8 @@ class AddActivity : AppCompatActivity() {
                     binding.etTitle1.text.toString(),
                     binding.etDescription.text.toString(),
                     Date(date.timeInMillis),
-                    binding.cbRepeat1.isChecked
+                    binding.cbRepeat1.isChecked,
+                    false
                 ))
             })
             finish()

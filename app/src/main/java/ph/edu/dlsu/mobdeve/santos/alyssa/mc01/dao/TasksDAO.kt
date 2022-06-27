@@ -15,6 +15,7 @@ interface TasksDAO {
     fun getTask(): ArrayList<Task>
     fun deleteTask(id: Long?)
     fun getTaskCount() : String
+    fun getCompletedTask(): ArrayList<Task>
 }
 
 class TasksDAOSQLImpl(var context: Context) : TasksDAO {
@@ -29,6 +30,7 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         contentValues.put(DatabaseHandler.KEYDESCRIPTION, task.description)
         contentValues.put(DatabaseHandler.KEYDATE, task.dueDate!!.time)
         contentValues.put(DatabaseHandler.KEYREPEAT, task.repeat)
+        contentValues.put(DatabaseHandler.KEYCOMPLETED, task.completed)
 
         task._id = db.insert(
             DatabaseHandler.TABLETASKS,
@@ -63,7 +65,8 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
                             getString(getColumnIndex(DatabaseHandler.KEYNAME)),
                             getString(getColumnIndex(DatabaseHandler.KEYDESCRIPTION)),
                             Date(getLong(getColumnIndex((DatabaseHandler.KEYDATE)))),
-                            getInt(getColumnIndex(DatabaseHandler.KEYREPEAT)) == 1
+                            getInt(getColumnIndex(DatabaseHandler.KEYREPEAT)) == 1,
+                            getInt(getColumnIndex(DatabaseHandler.KEYCOMPLETED)) == 1
                         )
                     )
                 } while (moveToNext())
@@ -93,5 +96,40 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
         var count : Int = if(cursor.moveToFirst()) { cursor.getInt(0) } else { 0 }
         db.close()
         return count.toString()
+    }
+
+    @SuppressLint("Range")
+    override fun getCompletedTask(): ArrayList<Task> {
+        val taskList: ArrayList<Task> = ArrayList<Task>()
+        val selectQuery = "SELECT * FROM ${DatabaseHandler.TABLETASKS} WHERE ${DatabaseHandler.KEYCOMPLETED} = 'true'"
+
+        var databaseHandler: DatabaseHandler = DatabaseHandler(context)
+        val db = databaseHandler.readableDatabase
+        var cursor: Cursor? = null
+
+        try {
+            cursor = db.rawQuery(selectQuery, null) //responsible for retrieving data
+        } catch (e: SQLiteException) {
+            db.execSQL(selectQuery)
+            return ArrayList()
+        }
+
+        if (cursor.moveToFirst()) { //may data move to first
+            with(cursor) {
+                do {
+                    taskList.add(
+                        Task(
+                            getLong(cursor.getColumnIndex(DatabaseHandler.KEYID)),
+                            getString(getColumnIndex(DatabaseHandler.KEYNAME)),
+                            getString(getColumnIndex(DatabaseHandler.KEYDESCRIPTION)),
+                            Date(getLong(getColumnIndex((DatabaseHandler.KEYDATE)))),
+                            getInt(getColumnIndex(DatabaseHandler.KEYREPEAT)) == 1,
+                            getInt(getColumnIndex(DatabaseHandler.KEYCOMPLETED)) == 1,
+                        )
+                    )
+                } while (moveToNext())
+            }
+        }
+        return taskList
     }
 }

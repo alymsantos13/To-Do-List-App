@@ -51,6 +51,26 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         dao = TasksDAOSQLImpl(applicationContext)
         taskArrayList = dao.getTask()
 
+        //Checkbox filter
+        binding.cbCheckbox.setOnClickListener{
+            if(binding.cbCheckbox.isChecked)
+            {
+                Log.d("CHECKBOX", "IT IS CHECKED")
+                taskArrayList = dao.getCompletedTask()
+                binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
+                taskAdapter = TaskAdapter(applicationContext, taskArrayList)
+                binding.rvList.setAdapter(taskAdapter)
+            }
+            else
+            {
+                Log.d("NOTCHECKBOX", "IT IS NOT CHECKED")
+                taskArrayList = dao.getTask()
+                binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
+                taskAdapter = TaskAdapter(applicationContext, taskArrayList)
+                binding.rvList.setAdapter(taskAdapter)
+            }
+        }
+
         binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
         taskAdapter = TaskAdapter(applicationContext, taskArrayList)
         binding.rvList.setAdapter(taskAdapter)

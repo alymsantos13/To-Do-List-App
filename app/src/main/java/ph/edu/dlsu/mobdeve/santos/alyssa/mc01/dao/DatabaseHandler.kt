@@ -23,6 +23,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(
         /*val KEYPASSWORD = "password"//columns*/
         const val KEYDATE = "dueDate"//columns
         const val KEYREPEAT = "repeat"
+
+        const val KEYCOMPLETED = "completed"
     }
 
     override fun onCreate(db: SQLiteDatabase) {
@@ -32,7 +34,8 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(
                 "$KEYNAME TEXT, " +
                 "$KEYDESCRIPTION TEXT, " +
                 "$KEYDATE INTEGER, " +
-                "$KEYREPEAT BOOLEAN)"
+                "$KEYREPEAT BOOLEAN, " +
+                "$KEYCOMPLETED BOOLEAN)"
         db.execSQL(CREATETASKSTABLE)
 
         /*with(ContentValues()) {
@@ -40,11 +43,13 @@ class DatabaseHandler(context: Context) : SQLiteOpenHelper(
             put(KEYDESCRIPTION, "My Description")
             put(KEYDATE, Calendar.getInstance().timeInMillis)
             put(KEYREPEAT, false)
+            put(KEYCOMPLETED, false)
             db.insert(TABLETASKS, null, this)
 
             put(KEYNAME, "Note 2")
             put(KEYDESCRIPTION, "My Other Description")
             put(KEYREPEAT, true)
+            put(KEYCOMPLETED, false)
             db.insert(TABLETASKS, null, this)
         }*/
     }

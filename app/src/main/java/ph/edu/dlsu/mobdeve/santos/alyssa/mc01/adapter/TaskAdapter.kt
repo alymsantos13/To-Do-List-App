@@ -72,7 +72,6 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         fun bindTask(task: Task) {
             this.task = task
             itemBinding.tvName.text = task.name
-
         }
 
         override fun onClick(view: View?) {

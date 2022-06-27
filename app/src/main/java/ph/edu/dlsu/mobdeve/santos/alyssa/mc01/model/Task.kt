@@ -9,13 +9,15 @@ data class Task(
     val name: String,
     val description: String,
     val dueDate: Date?,
-    val repeat: Boolean
+    val repeat: Boolean,
+    var completed : Boolean
 ): Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readSerializable() as? Long,
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         (parcel.readSerializable() as? Long)?.let { Date(it) },
+        parcel.readByte() != 0.toByte(),
         parcel.readByte() != 0.toByte()
     )
 
@@ -25,6 +27,7 @@ data class Task(
         writeString(description)
         writeSerializable(dueDate?.time)
         writeByte(if (repeat) 1 else 0)
+        writeByte(if(completed) 1 else 0)
     }
 
     override fun describeContents() = 0
