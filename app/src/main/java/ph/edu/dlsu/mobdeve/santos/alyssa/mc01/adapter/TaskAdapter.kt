@@ -24,6 +24,12 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         this.taskArrayList = taskArrayList
     }
 
+    //For Searching
+    fun filterList(filterList: ArrayList<Task>) {
+        taskArrayList = filterList
+        notifyDataSetChanged()
+    }
+
     //Function to add an entry in the recycler view
     fun addTask(task: Task)
     {
@@ -37,8 +43,6 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         dao.deleteTask(id)
         notifyItemRemoved(position)
     }
-
-
 
     override fun getItemCount(): Int {
         return taskArrayList.size

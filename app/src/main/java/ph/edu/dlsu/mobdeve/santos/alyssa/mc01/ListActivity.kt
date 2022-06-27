@@ -1,13 +1,15 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
-import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SearchView
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
@@ -18,7 +20,6 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityListBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.StoragePreferences
 import java.util.*
-import kotlin.collections.ArrayList
 
 class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var binding: ActivityListBinding
@@ -90,6 +91,43 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+    //To search
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.search_menu, menu)
+
+        var searchItem : MenuItem = menu!!.findItem(R.id.actionSearch);
+
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String): Boolean {
+                filter(newText)
+                return false
+            }
+        })
+
+        return true;
+    }
+
+    private fun filter(text: String) {
+        val filteredlist: ArrayList<Task> = ArrayList()
+
+        for (item in taskArrayList) {
+            if (item.name.lowercase().contains(text.lowercase(Locale.getDefault()))) {
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            taskAdapter.filterList(filteredlist)
+        }
+    }
+
    /* private fun init() {
         var dao: TasksDAO = TasksDAOArrayImpl()
 
@@ -99,26 +137,26 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
 
     }*/
 
-        override fun onClick(view: View?) {
-            when (view!!.id) {
-                R.id.btn_todo -> {
-                    var goToListActivity = Intent(this, ListActivity::class.java)
-                    startActivity(goToListActivity)
+    override fun onClick(view: View?) {
+        when (view!!.id) {
+            R.id.btn_todo -> {
+                var goToListActivity = Intent(this, ListActivity::class.java)
+                startActivity(goToListActivity)
 
-                }
-                R.id.btn_timer -> {
-                    var goToTimerActivity = Intent(this, TimerActivity::class.java)
-                    startActivity(goToTimerActivity)
+            }
+            R.id.btn_timer -> {
+                var goToTimerActivity = Intent(this, TimerActivity::class.java)
+                startActivity(goToTimerActivity)
 
-                }
-                R.id.btn_logout -> {
-                    //sharedPreferences!!.clearStringPreferences()
-                    sharedPreferences!!.saveStringPreferences("login_status", "")
-                    Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_SHORT).show()
-                    var goToLoginActivity = Intent(this, LoginActivity::class.java)
-                    startActivity(goToLoginActivity)
-                    finish()
-                }
+            }
+            R.id.btn_logout -> {
+                //sharedPreferences!!.clearStringPreferences()
+                sharedPreferences!!.saveStringPreferences("login_status", "")
+                Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_SHORT).show()
+                var goToLoginActivity = Intent(this, LoginActivity::class.java)
+                startActivity(goToLoginActivity)
+                finish()
             }
         }
+    }
 }
