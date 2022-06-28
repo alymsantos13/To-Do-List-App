@@ -39,6 +39,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         if (task != null) {
             binding.cbRepeat.isChecked = task.repeat == true
         }
+        Log.d("NAKCHECK BA", "${task?.completed}")
 
     }
 

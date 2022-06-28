@@ -76,11 +76,27 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         fun bindTask(task: Task) {
             this.task = task
             itemBinding.tvName.text = task.name
+            /*itemBinding.cbCheck.isChecked = task.completed
+            if(task.completed) {
+                itemBinding.cbCheck.isChecked = true
+            }*/
+            if(!task.completed){
+                itemBinding.cbCheck.isChecked = false
+            }
+            else if (task.completed){
+                itemBinding.cbCheck.isChecked = true
+            }
+
         }
 
         override fun onClick(view: View?) {
             var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
+            if(itemBinding.cbCheck.isChecked){
+                Log.d("NAKCHECK BA", "${itemBinding.cbCheck.isChecked}")
+                task.completed = true
+            }
             Log.d("${task.repeat}", "${task.repeat}")
+            Log.d("${task.completed}", "${task.completed}")
             goToDetailsActivity.putExtra(TASK, task)
             goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
             context.startActivity(goToDetailsActivity)

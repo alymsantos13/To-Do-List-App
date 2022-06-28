@@ -44,9 +44,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
   //      init()
-        Log.d(
-            "LIST ACTIVITY", "PASOK"
-        )
+
         sharedPreferences = StoragePreferences(this)
 
         dao = TasksDAOSQLImpl(applicationContext)
@@ -128,6 +126,21 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         }
     }
 
+
+    private fun filterCompleted () {
+        val filteredlist: ArrayList<Task> = ArrayList()
+
+        for (item in taskArrayList) {
+            if (item.completed) {
+                filteredlist.add(item)
+            }
+        }
+        if (filteredlist.isEmpty()) {
+            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
+        } else {
+            taskAdapter.filterList(filteredlist)
+        }
+    }
    /* private fun init() {
         var dao: TasksDAO = TasksDAOArrayImpl()
 
