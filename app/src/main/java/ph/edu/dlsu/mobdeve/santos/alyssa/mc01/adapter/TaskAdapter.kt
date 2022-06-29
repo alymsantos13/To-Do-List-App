@@ -6,6 +6,8 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
+import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.DetailsActivity
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
@@ -13,39 +15,22 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOSQLImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ItemTaskBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
-class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
+class TaskAdapter(
+    private val context: Context
+) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskComparator()) {
 
-    private var taskArrayList = ArrayList<Task>()
-    private var context: Context
-    private lateinit var dao: TasksDAO
-
-    constructor(context: Context, taskArrayList: ArrayList<Task>) {
-        this.context = context
-        this.taskArrayList = taskArrayList
-    }
-
-    //For Searching
-    fun filterList(filterList: ArrayList<Task>) {
-        taskArrayList = filterList
-        notifyDataSetChanged()
-    }
-
-    //Function to add an entry in the recycler view
-    fun addTask(task: Task)
-    {
-        taskArrayList.add(task)
-        notifyItemInserted(taskArrayList.size - 1)
-    }
+    private val dao: TasksDAO = TasksDAOSQLImpl(context)
 
     fun removeTask(position: Int) {
-        val id = taskArrayList.removeAt(position)._id
-        dao = TasksDAOSQLImpl(context)
-        dao.deleteTask(id)
-        notifyItemRemoved(position)
+        val list = ArrayList(currentList)
+        dao.deleteTask(list.removeAt(position)._id)
+        submitList(list)
     }
 
-    override fun getItemCount(): Int {
-        return taskArrayList.size
+    fun updateTask(task: Task) {
+        val list = ArrayList(currentList)
+        dao.updateCompleted(task)
+        submitList(list)
     }
 
     override fun onCreateViewHolder(
@@ -61,11 +46,11 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
     }
 
     override fun onBindViewHolder(holder: TaskAdapter.TaskViewHolder, position: Int) {
-        holder.bindTask(taskArrayList[position])
+        holder.bindTask(getItem(position))
     }
 
     inner class TaskViewHolder(private val itemBinding: ItemTaskBinding) :
-        RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener{
+        RecyclerView.ViewHolder(itemBinding.root), View.OnClickListener {
 
         private lateinit var task: Task
 
@@ -76,32 +61,30 @@ class TaskAdapter :  RecyclerView.Adapter<TaskAdapter.TaskViewHolder> {
         fun bindTask(task: Task) {
             this.task = task
             itemBinding.tvName.text = task.name
-            /*itemBinding.cbCheck.isChecked = task.completed
-            if(task.completed) {
-                itemBinding.cbCheck.isChecked = true
-            }*/
-            if(!task.completed){
-                itemBinding.cbCheck.isChecked = false
+            itemBinding.cbCheck.apply {
+                isChecked = task.completed
+                setOnClickListener {
+                    task.completed = !task.completed
+                    updateTask(task)
+                }
             }
-            else if (task.completed){
-                itemBinding.cbCheck.isChecked = true
-            }
-
         }
 
         override fun onClick(view: View?) {
-            var goToDetailsActivity = Intent(context, DetailsActivity::class.java)
-            if(itemBinding.cbCheck.isChecked){
-                Log.d("NAKCHECK BA", "${itemBinding.cbCheck.isChecked}")
-                task.completed = true
+            Intent(context, DetailsActivity::class.java).apply {
+                putExtra(TASK, task)
+                addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                context.startActivity(this)
             }
-            Log.d("${task.repeat}", "${task.repeat}")
-            Log.d("${task.completed}", "${task.completed}")
-            goToDetailsActivity.putExtra(TASK, task)
-            goToDetailsActivity.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
-            context.startActivity(goToDetailsActivity)
         }
+
     }
+
+    class TaskComparator : DiffUtil.ItemCallback<Task>() {
+        override fun areItemsTheSame(oldItem: Task, newItem: Task) = oldItem._id == newItem._id
+        override fun areContentsTheSame(oldItem: Task, newItem: Task) = oldItem == newItem
+    }
+
     companion object {
         const val TASK = "TASK"
     }

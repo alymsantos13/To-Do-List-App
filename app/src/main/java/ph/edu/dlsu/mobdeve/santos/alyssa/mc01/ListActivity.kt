@@ -27,14 +27,15 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var taskArrayList: ArrayList<Task>
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var dao: TasksDAO
-    var sharedPreferences : StoragePreferences? = null
+    var sharedPreferences: StoragePreferences? = null
 
     private val addResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             // a new item as passed
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
                 Log.d("TASK", it.toString())
-                taskAdapter.addTask(it)
+                taskArrayList.add(it)
+                taskAdapter.notifyItemInserted(taskAdapter.currentList.size - 1)
                 dao.addTask(it)
             }
         }
@@ -43,7 +44,6 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         super.onCreate(savedInstanceState)
         binding = ActivityListBinding.inflate(layoutInflater)
         setContentView(binding.root)
-  //      init()
 
         sharedPreferences = StoragePreferences(this)
 
@@ -51,7 +51,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         taskArrayList = dao.getTask()
 
         //Checkbox filter
-        binding.cbCheckbox.setOnClickListener{
+        /*binding.cbCheckbox.setOnClickListener{
             if(binding.cbCheckbox.isChecked)
             {
                 Log.d("CHECKBOX", "IT IS CHECKED")
@@ -68,14 +68,18 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
                 taskAdapter = TaskAdapter(applicationContext, taskArrayList)
                 binding.rvList.setAdapter(taskAdapter)
             }
+        }*/
+        binding.cbCheckbox.setOnClickListener {
+            taskAdapter.submitList(
+                taskArrayList.filter { if (binding.cbCheckbox.isChecked) it.completed else true }
+            )
         }
 
-        binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
-        taskAdapter = TaskAdapter(applicationContext, taskArrayList)
-        binding.rvList.setAdapter(taskAdapter)
+        binding.rvList.layoutManager = LinearLayoutManager(applicationContext)
+        taskAdapter = TaskAdapter(applicationContext).apply { submitList(taskArrayList) }
+        binding.rvList.adapter = taskAdapter
 
-        var swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT)
-        swipeCallback.taskAdapter = taskAdapter
+        val swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, taskAdapter)
         itemTouchHelper = ItemTouchHelper(swipeCallback)
         itemTouchHelper.attachToRecyclerView(binding.rvList)
 
@@ -93,7 +97,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.search_menu, menu)
 
-        var searchItem : MenuItem = menu!!.findItem(R.id.actionSearch);
+        var searchItem: MenuItem = menu!!.findItem(R.id.actionSearch);
 
         val searchView: SearchView = searchItem.actionView as SearchView
 
@@ -122,33 +126,9 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         if (filteredlist.isEmpty()) {
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
-            taskAdapter.filterList(filteredlist)
+            taskAdapter.submitList(filteredlist)
         }
     }
-
-
-    private fun filterCompleted () {
-        val filteredlist: ArrayList<Task> = ArrayList()
-
-        for (item in taskArrayList) {
-            if (item.completed) {
-                filteredlist.add(item)
-            }
-        }
-        if (filteredlist.isEmpty()) {
-            Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
-        } else {
-            taskAdapter.filterList(filteredlist)
-        }
-    }
-   /* private fun init() {
-        var dao: TasksDAO = TasksDAOArrayImpl()
-
-        var task = Task(0,"Water the plants", "nice", Date(122, 4, 22), false)
-        dao.addTask(task)
-        taskArrayList = dao.getTask()
-
-    }*/
 
     override fun onClick(view: View?) {
         when (view!!.id) {
@@ -165,7 +145,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             R.id.btn_logout -> {
                 //sharedPreferences!!.clearStringPreferences()
                 sharedPreferences!!.saveStringPreferences("login_status", "")
-                Toast.makeText(this, "Successfully Logged out",Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Successfully Logged out", Toast.LENGTH_SHORT).show()
                 var goToLoginActivity = Intent(this, LoginActivity::class.java)
                 startActivity(goToLoginActivity)
                 finish()

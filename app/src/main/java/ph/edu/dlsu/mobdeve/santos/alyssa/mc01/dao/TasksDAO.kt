@@ -6,6 +6,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
 import android.util.Log
+import androidx.room.RoomMasterTable.TABLE_NAME
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 import java.util.*
 import kotlin.collections.ArrayList
@@ -16,13 +17,13 @@ interface TasksDAO {
     fun deleteTask(id: Long?)
     fun getTaskCount() : String
     fun getCompletedTask(): ArrayList<Task>
+    fun updateCompleted(task: Task) : Boolean
 }
 
 class TasksDAOSQLImpl(var context: Context) : TasksDAO {
 
-
+    var databaseHandler: DatabaseHandler = DatabaseHandler(context) //naset up na db
     override fun addTask(task: Task) {
-        var databaseHandler: DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
         val contentValues = ContentValues() //data na issave sa db
 
@@ -76,11 +77,21 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
     }
 
     override fun deleteTask(id: Long?){
-        var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
+        //var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
         val success = db.delete(DatabaseHandler.TABLETASKS, DatabaseHandler.KEYID + "=" + id , null)
 
         db.close()
+    }
+
+    override fun updateCompleted(task: Task) : Boolean {
+        //var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
+        val db = databaseHandler.writableDatabase //important na writable
+        val values = ContentValues()
+        values.put("COMPLETED", task.completed)
+        val success = db.update(DatabaseHandler.TABLETASKS, values, DatabaseHandler.KEYID + "=?", arrayOf(task._id.toString())).toLong()
+        db.close()
+        return Integer.parseInt("$success") != -1
     }
 
     //Counting the tasks

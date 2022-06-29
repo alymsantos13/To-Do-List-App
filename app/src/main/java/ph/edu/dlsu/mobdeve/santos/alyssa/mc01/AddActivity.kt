@@ -15,14 +15,14 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.formatDate
 import java.util.*
 
 class AddActivity : AppCompatActivity() {
-    private lateinit var binding : ActivityAddBinding
+    private lateinit var binding: ActivityAddBinding
     private val date: Calendar = Calendar.getInstance()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
-        overridePendingTransition(0,0)
+        overridePendingTransition(0, 0)
         setContentView(binding.root)
 
         createNotificationChannel()
@@ -31,19 +31,22 @@ class AddActivity : AppCompatActivity() {
             binding.tvDate.text = formatDate(date)
         }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
 
-        binding.btnDate.setOnClickListener{
+        binding.btnDate.setOnClickListener {
             dpd.show()
         }
         binding.popupWindowButton.setOnClickListener {
+            Log.d("HERE", "Main Activity")
             setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
-                putExtra(TASK, Task(
-                    null,
-                    binding.etTitle1.text.toString(),
-                    binding.etDescription.text.toString(),
-                    Date(date.timeInMillis),
-                    binding.cbRepeat1.isChecked,
-                    false
-                ))
+                putExtra(
+                    TASK, Task(
+                        null,
+                        binding.etTitle1.text.toString(),
+                        binding.etDescription.text.toString(),
+                        Date(date.timeInMillis),
+                        binding.cbRepeat1.isChecked,
+                        false
+                    )
+                )
             })
             scheduleNotification()
             finish()
@@ -66,17 +69,16 @@ class AddActivity : AppCompatActivity() {
         )
 
         val alarmManager = getSystemService(Context.ALARM_SERVICE) as AlarmManager
-        val time = date.timeInMillis - 86400000L //TODO: not sure if tama
-        if(repeating){ //TODO: RECHECK IF MALI (UPDATE: NOT WORKING)
+        val time = date.timeInMillis - 86400000L
+        if (repeating) {
             Log.d("HETO REPEATING BA?", "${repeating}")
             alarmManager.setRepeating(
                 AlarmManager.RTC_WAKEUP,
-                date.timeInMillis,
-                time,
+                time + 1000L,
+                86400000L,
                 pendingIntent
             )
-        }
-        else{
+        } else {
             alarmManager.setExactAndAllowWhileIdle(
                 AlarmManager.RTC_WAKEUP,
                 time,
@@ -93,6 +95,7 @@ class AddActivity : AppCompatActivity() {
         val importance = NotificationManager.IMPORTANCE_DEFAULT
         val channel = NotificationChannel(channelID, name, importance)
         channel.description = desc
+
         val notificationManager = getSystemService(NOTIFICATION_SERVICE) as NotificationManager
 
         notificationManager.createNotificationChannel(channel)
