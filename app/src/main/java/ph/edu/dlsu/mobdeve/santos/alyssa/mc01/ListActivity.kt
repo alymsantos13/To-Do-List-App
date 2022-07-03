@@ -28,15 +28,18 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var itemTouchHelper: ItemTouchHelper
     private lateinit var dao: TasksDAO
     var sharedPreferences: StoragePreferences? = null
+    private val alarmReceiver = AlarmReceiver()
 
     private val addResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
             // a new item as passed
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
                 Log.d("TASK", it.toString())
-                taskArrayList.add(it)
-                taskAdapter.notifyItemInserted(taskAdapter.currentList.size - 1)
+                val list = ArrayList(taskAdapter.currentList)
+                list.add(it)
+                taskAdapter.submitList(list)
                 dao.addTask(it)
+                alarmReceiver.setAlarm(applicationContext, it) //added
             }
         }
 
@@ -50,25 +53,6 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         dao = TasksDAOSQLImpl(applicationContext)
         taskArrayList = dao.getTask()
 
-        //Checkbox filter
-        /*binding.cbCheckbox.setOnClickListener{
-            if(binding.cbCheckbox.isChecked)
-            {
-                Log.d("CHECKBOX", "IT IS CHECKED")
-                taskArrayList = dao.getCompletedTask()
-                binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
-                taskAdapter = TaskAdapter(applicationContext, taskArrayList)
-                binding.rvList.setAdapter(taskAdapter)
-            }
-            else
-            {
-                Log.d("NOTCHECKBOX", "IT IS NOT CHECKED")
-                taskArrayList = dao.getTask()
-                binding.rvList.setLayoutManager(LinearLayoutManager(applicationContext))
-                taskAdapter = TaskAdapter(applicationContext, taskArrayList)
-                binding.rvList.setAdapter(taskAdapter)
-            }
-        }*/
         binding.cbCheckbox.setOnClickListener {
             taskAdapter.submitList(
                 taskArrayList.filter { if (binding.cbCheckbox.isChecked) it.completed else true }
@@ -79,7 +63,9 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         taskAdapter = TaskAdapter(applicationContext).apply { submitList(taskArrayList) }
         binding.rvList.adapter = taskAdapter
 
-        val swipeCallback = SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, taskAdapter)
+
+        val swipeCallback =
+            SwipeCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT, taskAdapter)
         itemTouchHelper = ItemTouchHelper(swipeCallback)
         itemTouchHelper.attachToRecyclerView(binding.rvList)
 

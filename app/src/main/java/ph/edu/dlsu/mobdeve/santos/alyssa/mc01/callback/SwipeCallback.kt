@@ -5,7 +5,9 @@ import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.AddActivity
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 
 class SwipeCallback(dragDirs: Int, swipeDirs: Int, private val taskAdapter: TaskAdapter) :
     ItemTouchHelper.SimpleCallback(dragDirs, swipeDirs) {
@@ -55,6 +57,7 @@ class SwipeCallback(dragDirs: Int, swipeDirs: Int, private val taskAdapter: Task
     override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
         val position = viewHolder.adapterPosition
         taskAdapter.removeTask(position)
+
     }
 
 

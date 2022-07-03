@@ -2,27 +2,31 @@ package ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter
 
 import android.content.Context
 import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.AlarmReceiver
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.DetailsActivity
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAOSQLImpl
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ItemTaskBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
+import java.util.*
+import kotlin.collections.ArrayList
 
 class TaskAdapter(
-    private val context: Context
+    private val context: Context,
 ) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskComparator()) {
 
     private val dao: TasksDAO = TasksDAOSQLImpl(context)
+    private val alarmReceiver = AlarmReceiver()
 
     fun removeTask(position: Int) {
         val list = ArrayList(currentList)
+        alarmReceiver.cancelAlarm(context, list[position])
         dao.deleteTask(list.removeAt(position)._id)
         submitList(list)
     }
