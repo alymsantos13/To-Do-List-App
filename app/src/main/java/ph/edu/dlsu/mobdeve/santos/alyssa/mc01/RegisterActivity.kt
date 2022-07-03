@@ -19,18 +19,18 @@ class RegisterActivity : AppCompatActivity(){
         sharedPreferences = StoragePreferences(this)
 
         binding.btnConfirm.setOnClickListener{
-            val str_reg_password1 = binding.etPassword1.text.toString()
-            val str_reg_password2 = binding.etPassword2.text.toString()
+            val strRegPassword1 = binding.etPassword1.text.toString()
+            val strRegPassword2 = binding.etPassword2.text.toString()
 
-            if(str_reg_password1.equals("") || str_reg_password2.equals("")) {
+            if(strRegPassword1.equals("") || strRegPassword2.equals("")) {
                 Toast.makeText(this, "Please enter complete details", Toast.LENGTH_SHORT).show()
             }
             else {
-                if(str_reg_password1 != str_reg_password2){
+                if(strRegPassword1 != strRegPassword2){
                     Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    sharedPreferences!!.saveStringPreferences("password",str_reg_password1)
+                    sharedPreferences!!.saveStringPreferences("password",strRegPassword1)
                     Toast.makeText(this, "Password Created Succesfully", Toast.LENGTH_SHORT).show()
 
                     var goToLoginActivity = Intent(this, LoginActivity::class.java)

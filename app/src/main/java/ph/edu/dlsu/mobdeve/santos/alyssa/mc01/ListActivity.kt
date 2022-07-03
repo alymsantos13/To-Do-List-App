@@ -35,9 +35,8 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             // a new item as passed
             result.data?.getParcelableExtra<Task>(AddActivity.TASK)?.let {
                 Log.d("TASK", it.toString())
-                val list = ArrayList(taskAdapter.currentList)
-                list.add(it)
-                taskAdapter.submitList(list)
+              //  taskArrayList.add(it)
+                taskAdapter.addTask(it)
                 dao.addTask(it)
                 alarmReceiver.setAlarm(applicationContext, it) //added
             }
@@ -52,15 +51,13 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
 
         dao = TasksDAOSQLImpl(applicationContext)
         taskArrayList = dao.getTask()
-
+        //To allow the filtering of tasks
         binding.cbCheckbox.setOnClickListener {
-            taskAdapter.submitList(
-                taskArrayList.filter { if (binding.cbCheckbox.isChecked) it.completed else true }
-            )
+            taskAdapter.submitList( if (binding.cbCheckbox.isChecked) taskArrayList.filter { it.completed } else taskArrayList )
         }
 
         binding.rvList.layoutManager = LinearLayoutManager(applicationContext)
-        taskAdapter = TaskAdapter(applicationContext).apply { submitList(taskArrayList) }
+        taskAdapter = TaskAdapter(applicationContext,taskArrayList).apply { submitList(taskArrayList) }
         binding.rvList.adapter = taskAdapter
 
 
@@ -100,7 +97,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
 
         return true;
     }
-
+    //For search purposes
     private fun filter(text: String) {
         val filteredlist: ArrayList<Task> = ArrayList()
 
@@ -112,7 +109,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
         if (filteredlist.isEmpty()) {
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
-            taskAdapter.submitList(filteredlist)
+            taskAdapter.submitList(if (filteredlist.size == taskArrayList.size) taskArrayList else filteredlist)
         }
     }
 

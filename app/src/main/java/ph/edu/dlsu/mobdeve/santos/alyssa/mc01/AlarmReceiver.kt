@@ -11,6 +11,8 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.util.NotificationUtils
+import java.time.LocalDateTime
+import java.time.LocalTime
 import java.util.*
 
 class AlarmReceiver() : BroadcastReceiver() {
@@ -60,6 +62,8 @@ class AlarmReceiver() : BroadcastReceiver() {
         )
 
         with(context.getSystemService(Context.ALARM_SERVICE) as AlarmManager) {
+            Log.d("TIME", "${Calendar.getInstance().timeInMillis}")
+
             if (willSave) {
                 val time = task.dueDate!!.time - 86400000L + 5000
 

@@ -15,6 +15,7 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.R
 
 class NotificationUtils(base: Context) : ContextWrapper(base) {
 
+    //Handles the showing of Notification
     private var manager: NotificationManager? = null
 
     init {

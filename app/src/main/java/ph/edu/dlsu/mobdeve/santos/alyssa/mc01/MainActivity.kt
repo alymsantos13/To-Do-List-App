@@ -18,8 +18,8 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         sharedPreferences = StoragePreferences(this)
-        val str_login_status = sharedPreferences!!.getStringPreferences("login_status")
-        if(str_login_status != "") {
+        val strLoginStatus = sharedPreferences!!.getStringPreferences("login_status")
+        if(strLoginStatus != "") {
             val intent = Intent(this, ListActivity::class.java)
             startActivity(intent)
             finish()

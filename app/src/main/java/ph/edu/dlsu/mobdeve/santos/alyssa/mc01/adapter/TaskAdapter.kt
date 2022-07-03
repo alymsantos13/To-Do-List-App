@@ -19,22 +19,27 @@ import kotlin.collections.ArrayList
 
 class TaskAdapter(
     private val context: Context,
+    private val taskArrayList : ArrayList<Task>
 ) : ListAdapter<Task, TaskAdapter.TaskViewHolder>(TaskComparator()) {
 
     private val dao: TasksDAO = TasksDAOSQLImpl(context)
     private val alarmReceiver = AlarmReceiver()
+    //private var taskArrayList = ArrayList<Task>()
 
-    fun removeTask(position: Int) {
-        val list = ArrayList(currentList)
-        alarmReceiver.cancelAlarm(context, list[position])
-        dao.deleteTask(list.removeAt(position)._id)
-        submitList(list)
+    fun addTask(task: Task){
+        taskArrayList.add(task)
+        notifyItemInserted(taskArrayList.size -1)
     }
-
-    fun updateTask(task: Task) {
-        val list = ArrayList(currentList)
+    //Allows to remove the task from the list, db,and cancels the alarm
+    fun removeTask(position: Int) {
+        alarmReceiver.cancelAlarm(context, taskArrayList[position])
+        dao.deleteTask(taskArrayList.removeAt(position)._id)
+        notifyItemRemoved(position)
+    }
+    //Allows to update the task from the list, db
+    fun updateTask(task: Task, position: Int) {
         dao.updateCompleted(task)
-        submitList(list)
+        notifyItemChanged(position)
     }
 
     override fun onCreateViewHolder(
@@ -50,7 +55,7 @@ class TaskAdapter(
     }
 
     override fun onBindViewHolder(holder: TaskAdapter.TaskViewHolder, position: Int) {
-        holder.bindTask(getItem(position))
+        holder.bindTask(taskArrayList[position]) //edited
     }
 
     inner class TaskViewHolder(private val itemBinding: ItemTaskBinding) :
@@ -61,7 +66,7 @@ class TaskAdapter(
         init {
             itemView.setOnClickListener(this)
         }
-
+        //To update if the task is marked as completed
         fun bindTask(task: Task) {
             this.task = task
             itemBinding.tvName.text = task.name
@@ -69,7 +74,7 @@ class TaskAdapter(
                 isChecked = task.completed
                 setOnClickListener {
                     task.completed = !task.completed
-                    updateTask(task)
+                    updateTask(task, layoutPosition)
                 }
             }
         }
@@ -92,4 +97,5 @@ class TaskAdapter(
     companion object {
         const val TASK = "TASK"
     }
+
 }

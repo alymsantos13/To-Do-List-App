@@ -13,7 +13,7 @@ import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityCountBinding
 class CountActivity : AppCompatActivity() {
     private lateinit var binding: ActivityCountBinding
 
-    //Counting the tasks
+    //Counting the tasks and splash
     private lateinit var dao: TasksDAO
 
     override fun onCreate(savedInstanceState: Bundle?) {

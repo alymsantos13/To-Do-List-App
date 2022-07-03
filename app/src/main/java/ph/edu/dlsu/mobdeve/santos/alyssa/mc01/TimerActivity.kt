@@ -1,5 +1,6 @@
 package ph.edu.dlsu.mobdeve.santos.alyssa.mc01
 
+import android.annotation.SuppressLint
 import android.app.AlarmManager
 import android.app.PendingIntent
 import android.app.PendingIntent.FLAG_MUTABLE
@@ -189,6 +190,7 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         timerLengthSeconds = PrefUtil.getPreviousTimerLengthSeconds(this)
     }
 
+    @SuppressLint("SetTextI18n")
     private fun updateCountdownUI()
     {
         val minutesUntilFinished = secondsRemaining / 60

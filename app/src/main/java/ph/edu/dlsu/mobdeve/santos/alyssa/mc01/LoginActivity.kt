@@ -29,15 +29,15 @@ class LoginActivity : AppCompatActivity() {
         }
 
         binding.btnLogin.setOnClickListener{
-            val str_password = edt_password.text.toString()
+            val strPassword = edt_password.text.toString()
 
-            if(str_password.equals("")) {
+            if(strPassword.equals("")) {
                 Toast.makeText(this, "ERROR: Please Enter Your Password", Toast.LENGTH_SHORT).show()
             }
             else {
                 val password = sharedPreferences!!.getStringPreferences("password")
 
-                if(password.equals(str_password)) {
+                if(password.equals(strPassword)) {
                     sharedPreferences!!.saveStringPreferences("login_status", "1")
 
                     val goToCountActivity = Intent(this, CountActivity::class.java)

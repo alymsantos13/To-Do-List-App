@@ -29,6 +29,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.btnTimer.setOnClickListener(this)
         binding.btnLogout.setOnClickListener(this)
 
+        //gets the passed Task from TaskAdapter
         val task = intent.getParcelableExtra<Task>(TaskAdapter.TASK)
 
         binding.tvTitle.text = task?.name
@@ -36,6 +37,7 @@ class DetailsActivity : AppCompatActivity(), View.OnClickListener {
         binding.tvDue.text = formatDate(task?.dueDate)
         Log.d("TASK", task.toString())
 
+        //to check the checkbox and allow the users to view it
         if (task != null) {
             binding.cbRepeat.isChecked = task.repeat == true
         }
