@@ -15,6 +15,7 @@ import java.util.*
 
 class AlarmReceiver() : BroadcastReceiver() {
     @RequiresApi(Build.VERSION_CODES.O)
+    //Handles the scheduling and alarm of the tasks
     override fun onReceive(context: Context, intent: Intent) {
         val id = intent.getLongExtra(ID_KEY, 0)
         val title = intent.getStringExtra(TITLE_KEY)
