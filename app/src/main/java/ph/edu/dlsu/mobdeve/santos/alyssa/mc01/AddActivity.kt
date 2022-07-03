@@ -16,24 +16,26 @@ class AddActivity : AppCompatActivity() {
     private lateinit var binding: ActivityAddBinding
     private val date: Calendar = Calendar.getInstance()
 
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddBinding.inflate(layoutInflater)
         overridePendingTransition(0, 0)
         setContentView(binding.root)
 
-        //createNotificationChannel()
+        //To allow selecting a due date for the task
         val dpd = DatePickerDialog(this, { _, year, month, dayOfMonth ->
             date.set(year, month, dayOfMonth)
             binding.tvDate.text = formatDate(date)
         }, date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH))
 
+        //To access the Date Picker Dialog
         binding.btnDate.setOnClickListener {
             dpd.show()
         }
+
+        //To save the newly added task
         binding.popupWindowButton.setOnClickListener {
-            Log.d("HERE", "Main Activity")
+
             setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
                 putExtra(
                     TASK, Task(
