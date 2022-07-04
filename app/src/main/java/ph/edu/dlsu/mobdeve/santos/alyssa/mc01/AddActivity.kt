@@ -6,6 +6,7 @@ import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Toast
 import androidx.annotation.RequiresApi
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.databinding.ActivityAddBinding
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
@@ -35,21 +36,26 @@ class AddActivity : AppCompatActivity() {
 
         //To save the newly added task
         binding.popupWindowButton.setOnClickListener {
-
-            setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
-                putExtra(
-                    TASK, Task(
-                        null,
-                        binding.etTitle1.text.toString(),
-                        binding.etDescription.text.toString(),
-                        Date(date.timeInMillis),
-                        binding.cbRepeat1.isChecked,
-                        false
+            if(binding.etTitle1.text!!.isNotEmpty() && binding.etDescription.text!!.isNotEmpty() && binding.tvDate.text.isNotEmpty()){
+                setResult(RESULT_OK, Intent(this, ListActivity::class.java).apply {
+                    putExtra(
+                        TASK, Task(
+                            null,
+                            binding.etTitle1.text.toString(),
+                            binding.etDescription.text.toString(),
+                            Date(date.timeInMillis),
+                            binding.cbRepeat1.isChecked,
+                            false
+                        )
                     )
-                )
-            })
+                })
 
-            finish()
+                finish()
+            }
+            else {
+                Toast.makeText(this, "Missing Input", Toast.LENGTH_SHORT).show()
+            }
+
         }
     }
 

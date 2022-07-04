@@ -49,6 +49,12 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
 
         sharedPreferences = StoragePreferences(this)
 
+        val strLoginStatus = sharedPreferences!!.getStringPreferences("login_status")
+        if(strLoginStatus == "") {
+            val intent = Intent(this, LoginActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
         dao = TasksDAOSQLImpl(applicationContext)
         taskArrayList = dao.getTask()
         //To allow the filtering of tasks

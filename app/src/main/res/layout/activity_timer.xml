@@ -14,10 +14,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Timer"
-        android:textSize="80sp"
+        android:textSize="60sp"
         android:textAlignment="center"
         android:textColor="@color/black"
-        android:background="@drawable/tv_border"/>
+        android:background="@drawable/tv_border"
+        android:backgroundTint="@color/white"/>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -113,9 +114,9 @@
                 android:id="@+id/btn_todo"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="15dp"
                 android:background="@drawable/todo"
-                android:layout_gravity="left"
                 />
 
             <androidx.appcompat.widget.AppCompatImageButton
@@ -130,6 +131,7 @@
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="15dp"
+                android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:background="@drawable/logout"/>
 
