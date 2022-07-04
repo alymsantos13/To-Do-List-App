@@ -106,16 +106,18 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     //For search purposes
     private fun filter(text: String) {
         val filteredlist: ArrayList<Task> = ArrayList()
-
+        //if (text.isEmpty()) return taskAdapter.submitList(taskArrayList)
         for (item in taskArrayList) {
             if (item.name.lowercase().contains(text.lowercase(Locale.getDefault()))) {
                 filteredlist.add(item)
             }
         }
+
         if (filteredlist.isEmpty()) {
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
         } else {
             taskAdapter.submitList(if (filteredlist.size == taskArrayList.size) taskArrayList else filteredlist)
+            //taskAdapter.notifyDataSetChanged()
         }
     }
 
