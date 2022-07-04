@@ -101,7 +101,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             override fun onQueryTextChange(newText: String): Boolean {
                 queryTextChangedJob?.cancel()
                 queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
-                    delay(100)
+                    delay(500)
                     filter(newText)
                 }
 
