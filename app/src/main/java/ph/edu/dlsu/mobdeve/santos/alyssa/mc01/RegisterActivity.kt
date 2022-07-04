@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity(){
                     Toast.makeText(this, "Passwords do not match", Toast.LENGTH_SHORT).show()
                 }
                 else {
-                    sharedPreferences!!.saveStringPreferences("password",strRegPassword1)
+                    sharedPreferences.saveStringPreferences("password",strRegPassword1)
                     Toast.makeText(this, "Password Created Succesfully", Toast.LENGTH_SHORT).show()
 
                     var goToLoginActivity = Intent(this, LoginActivity::class.java)

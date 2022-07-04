@@ -35,10 +35,10 @@ class LoginActivity : AppCompatActivity() {
                 Toast.makeText(this, "ERROR: Please Enter Your Password", Toast.LENGTH_SHORT).show()
             }
             else {
-                val password = sharedPreferences!!.getStringPreferences("password")
+                val password = sharedPreferences.getStringPreferences("password")
 
                 if(password.equals(strPassword)) {
-                    sharedPreferences!!.saveStringPreferences("login_status", "1")
+                    sharedPreferences.saveStringPreferences("login_status", "1")
 
                     val goToCountActivity = Intent(this, CountActivity::class.java)
                     startActivity(goToCountActivity)

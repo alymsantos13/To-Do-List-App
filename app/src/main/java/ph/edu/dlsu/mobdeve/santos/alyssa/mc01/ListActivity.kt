@@ -10,8 +10,10 @@ import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SearchView
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.coroutines.*
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.adapter.TaskAdapter
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.callback.SwipeCallback
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.dao.TasksDAO
@@ -29,6 +31,7 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     private lateinit var dao: TasksDAO
     var sharedPreferences: StoragePreferences? = null
     private val alarmReceiver = AlarmReceiver()
+    var queryTextChangedJob: Job? = null
 
     private val addResultLauncher =
         registerForActivityResult(StartActivityForResult()) { result ->
@@ -96,7 +99,12 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
             }
 
             override fun onQueryTextChange(newText: String): Boolean {
-                filter(newText)
+                queryTextChangedJob?.cancel()
+                queryTextChangedJob = lifecycleScope.launch(Dispatchers.Main) {
+                    delay(100)
+                    filter(newText)
+                }
+
                 return false
             }
         })
@@ -105,19 +113,14 @@ class ListActivity : AppCompatActivity(), View.OnClickListener {
     }
     //For search purposes
     private fun filter(text: String) {
-        val filteredlist: ArrayList<Task> = ArrayList()
-        //if (text.isEmpty()) return taskAdapter.submitList(taskArrayList)
-        for (item in taskArrayList) {
-            if (item.name.lowercase().contains(text.lowercase(Locale.getDefault()))) {
-                filteredlist.add(item)
-            }
-        }
+        val subStr = text.lowercase(Locale.getDefault())
+        val filteredList = taskArrayList.filter { it.name.lowercase().contains(subStr) }
 
-        if (filteredlist.isEmpty()) {
+        if (filteredList.isEmpty()) {
             Toast.makeText(this, "No Data Found..", Toast.LENGTH_SHORT).show()
+            taskAdapter.submitList(filteredList)
         } else {
-            taskAdapter.submitList(if (filteredlist.size == taskArrayList.size) taskArrayList else filteredlist)
-            //taskAdapter.notifyDataSetChanged()
+            taskAdapter.submitList(if (filteredList.size == taskArrayList.size) taskArrayList else filteredList)
         }
     }
 

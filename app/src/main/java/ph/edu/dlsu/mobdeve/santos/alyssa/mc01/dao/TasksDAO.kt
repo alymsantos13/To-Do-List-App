@@ -5,8 +5,6 @@ import android.content.ContentValues
 import android.content.Context
 import android.database.Cursor
 import android.database.sqlite.SQLiteException
-import android.util.Log
-import androidx.room.RoomMasterTable.TABLE_NAME
 import ph.edu.dlsu.mobdeve.santos.alyssa.mc01.model.Task
 import java.util.*
 import kotlin.collections.ArrayList
@@ -79,7 +77,7 @@ class TasksDAOSQLImpl(var context: Context) : TasksDAO {
     override fun deleteTask(id: Long?){
         //var databaseHandler:DatabaseHandler = DatabaseHandler(context) //naset up na db
         val db = databaseHandler.writableDatabase //important na writable
-        val success = db.delete(DatabaseHandler.TABLETASKS, DatabaseHandler.KEYID + "=" + id , null)
+        db.delete(DatabaseHandler.TABLETASKS, DatabaseHandler.KEYID + "=" + id , null)
 
         db.close()
     }

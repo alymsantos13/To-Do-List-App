@@ -75,21 +75,21 @@ class TimerActivity : AppCompatActivity(), View.OnClickListener {
         }
 
         //Start
-        binding.btnStart.setOnClickListener{v ->
+        binding.btnStart.setOnClickListener{ _ ->
             startTimer()
             timerState = TimerState.Running
             updateButtons()
         }
 
         //Pause
-        binding.btnPause.setOnClickListener { v ->
+        binding.btnPause.setOnClickListener { _ ->
             timer?.cancel()
             timerState = TimerState.Paused
             updateButtons()
         }
 
         //Reset
-        binding.btnReset.setOnClickListener { v ->
+        binding.btnReset.setOnClickListener { _ ->
             timer?.cancel()
             onTimerFinished()
         }
